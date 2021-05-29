@@ -52,7 +52,10 @@ extern int yydebug;
     INTEGER = 258,
     LETTER = 259,
     BOOLEAN = 260,
-    EQUAL = 261
+    EQUAL = 261,
+    IF = 262,
+    THEN = 263,
+    ELSE = 264
   };
 #endif
 /* Tokens.  */
@@ -60,19 +63,22 @@ extern int yydebug;
 #define LETTER 259
 #define BOOLEAN 260
 #define EQUAL 261
+#define IF 262
+#define THEN 263
+#define ELSE 264
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 30 "infixCalc.y"
+#line 34 "infixCalc.y"
 
 	int number;
 	char letter;
 	int boolean;
 	char *string;
 
-#line 76 "y.tab.h"
+#line 82 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -11,13 +11,17 @@
 [0-9]+		{yylval.number = atoi(yytext);
 			return INTEGER;}
 
-True|False	{if(yytext == "True")
+True|False	{ if(yytext[0] == 'T')	
 				yylval.boolean = 1;
 			else
 				yylval.boolean = 0;
 			return BOOLEAN; }
 
-[ ]==[ ]|==			{ return EQUAL; }
+[ ]?==[ ]?			{ return EQUAL; }
+
+[ ]?if[ ]?			{ return IF; }
+[ ]?then[ ]?		{ return THEN; }
+[ ]?else[ ]?		{ return ELSE; }
 
 [a-z]		{c = yytext[0];
 			yylval.letter = c - 'a';

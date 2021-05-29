@@ -23,8 +23,12 @@
 %token <letter> LETTER
 %token <boolean> BOOLEAN
 %token <string> EQUAL
+%token <string> IF
+%token <string> THEN
+%token <string> ELSE
 
-%type <number> expr term factor fact
+
+%type <number> expr term factor fact line
 %type <boolean> bexpr
 
 %union{
@@ -40,12 +44,16 @@ lines:lines line
 	 |line
 ;
 
-line:expr'\n'	 			{ printf("= %d\n", $1); }
-	|LETTER '=' expr'\n'	{ regs[$1]=$3; }
-	|bexpr'\n'				{ if($1==1)
-								printf("True\n");
-							else
-								printf("False\n"); }
+line:expr'\n'	 						{ printf("= %d\n", $1); }
+	|LETTER '=' expr'\n'				{ regs[$1]=$3; }
+	|bexpr'\n'							{ if($1 == 1)
+											printf("True\n");
+										else
+											printf("False\n"); }
+	|IF bexpr THEN expr ELSE expr'\n'	{ if($2 == 1)
+											printf("= %d\n", $4);
+										else
+											printf("= %d\n", $6);}
 ;
 
 bexpr: 	expr '<' '=' expr		{ $$ = $1 <= $4; }
@@ -54,6 +62,7 @@ bexpr: 	expr '<' '=' expr		{ $$ = $1 <= $4; }
 		|expr '>' expr			{ $$ = $1 > $3; }
 		|expr EQUAL expr		{ $$ = $1 == $3; }
 		|expr '!' '=' expr		{ $$ = $1 != $4; }
+		|'(' bexpr ')'			{ $$ = $2; }
 		|BOOLEAN				{ $$ = $1; }
 ;
 
