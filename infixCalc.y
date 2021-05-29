@@ -26,6 +26,7 @@
 %token <string> IF
 %token <string> THEN
 %token <string> ELSE
+%token <string> EXIT
 
 
 %type <number> expr term factor fact line
@@ -44,7 +45,8 @@ lines:lines line
 	 |line
 ;
 
-line:expr'\n'	 						{ printf("= %d\n", $1); }
+line:EXIT								{return 1;}
+	|expr'\n'	 						{ printf("= %d\n", $1); }
 	|LETTER '=' expr'\n'				{ regs[$1]=$3; }
 	|bexpr'\n'							{ if($1 == 1)
 											printf("True\n");

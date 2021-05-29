@@ -73,7 +73,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 35 "infixCalc.y"
+#line 78 "infixCalc.y"
 
 	int number;
 	char letter;

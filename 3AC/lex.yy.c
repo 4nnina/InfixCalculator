@@ -757,13 +757,13 @@ YY_RULE_SETUP
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 13 "infixCalc.l"
+#line 12 "infixCalc.l"
 {yylval.number = atoi(yytext);
 			return INTEGER;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 16 "infixCalc.l"
+#line 15 "infixCalc.l"
 { if(yytext[0] == 'T')	
 				yylval.boolean = 1;
 			else
@@ -772,50 +772,50 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 22 "infixCalc.l"
+#line 21 "infixCalc.l"
 { return EQUAL; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 24 "infixCalc.l"
+#line 23 "infixCalc.l"
 { return IF; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 25 "infixCalc.l"
+#line 24 "infixCalc.l"
 { return THEN; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 26 "infixCalc.l"
+#line 25 "infixCalc.l"
 { return ELSE; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 28 "infixCalc.l"
+#line 27 "infixCalc.l"
 {c = yytext[0];
 			yylval.letter = c - 'a';
 			return LETTER;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 31 "infixCalc.l"
+#line 30 "infixCalc.l"
 
 	YY_BREAK
 case 10:
 /* rule 10 can match eol */
 YY_RULE_SETUP
-#line 33 "infixCalc.l"
+#line 32 "infixCalc.l"
 return '\n';
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 34 "infixCalc.l"
+#line 33 "infixCalc.l"
 return yytext[0];
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 36 "infixCalc.l"
+#line 35 "infixCalc.l"
 ECHO;
 	YY_BREAK
 #line 822 "lex.yy.c"
@@ -1823,6 +1823,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 36 "infixCalc.l"
+#line 35 "infixCalc.l"
 
 
