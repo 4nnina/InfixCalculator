@@ -17,6 +17,8 @@ True|False	{if(yytext == "True")
 				yylval.boolean = 0;
 			return BOOLEAN; }
 
+[ ]==[ ]|==			{ return EQUAL; }
+
 [a-z]		{c = yytext[0];
 			yylval.letter = c - 'a';
 			return LETTER;}

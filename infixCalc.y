@@ -22,6 +22,7 @@
 %token <number> INTEGER 
 %token <letter> LETTER
 %token <boolean> BOOLEAN
+%token <string> EQUAL
 
 %type <number> expr term factor fact
 %type <boolean> bexpr
@@ -30,6 +31,7 @@
 	int number;
 	char letter;
 	int boolean;
+	char *string;
 }
 
 %%
@@ -50,7 +52,7 @@ bexpr: 	expr '<' '=' expr		{ $$ = $1 <= $4; }
 		|expr '>' '=' expr		{ $$ = $1 >= $4; }
 		|expr '<' expr			{ $$ = $1 < $3; }
 		|expr '>' expr			{ $$ = $1 > $3; }
-
+		|expr EQUAL expr		{ $$ = $1 == $3; }
 		|expr '!' '=' expr		{ $$ = $1 != $4; }
 		|BOOLEAN				{ $$ = $1; }
 ;

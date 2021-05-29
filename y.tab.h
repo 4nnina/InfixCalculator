@@ -51,25 +51,28 @@ extern int yydebug;
   {
     INTEGER = 258,
     LETTER = 259,
-    BOOLEAN = 260
+    BOOLEAN = 260,
+    EQUAL = 261
   };
 #endif
 /* Tokens.  */
 #define INTEGER 258
 #define LETTER 259
 #define BOOLEAN 260
+#define EQUAL 261
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 27 "infixCalc.y"
+#line 30 "infixCalc.y"
 
 	int number;
 	char letter;
 	int boolean;
+	char *string;
 
-#line 73 "y.tab.h"
+#line 76 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
