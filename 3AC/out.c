@@ -2,29 +2,27 @@
 #include <stdlib.h>
 
 void main(){
-int c = 9;
-int a = ;
-int b = 8;
-int d = t1 = b / c;
-t2 = a + t1;
-;
-t3 = a - b;
-0t4 = t3 == a;
+int a = 0;
+int b =32;
+int c = 87;
+int t1 = a - b;
+printf("%d\n",t1);
+int t2 = b >  a;
 
-if ( t4 )
+if ( t2 )
 	goto par0;
 else
 	goto par1;
-int h = 6;
-t7 = a + h;
-printf("%d\n",t7);
 
 par0:
-t5 = a - b;
-printf("%d\n",t5);
+int t3 = b - a;
+printf("%d\n",t3);
+goto end1
 
 par1:
-t6 = b - a;
-printf("%d\n",t6);
+int t4 = c - a;
+printf("%d\n",t4);
+
+end1:
 
 }

@@ -1,14 +1,21 @@
-%{  
-	#include <stdio.h>
-	#include "y.tab.h"
 
-	//extern int yylval
-	int c;
+%{  
+#include <stdlib.h>
+#include <string.h>
+#include "struct.h"
+#include "y.tab.h"
+
+//extern int yylval
+int c;
+
 %}
 
 %%
 
 exit[\n]	{return EXIT;}
+
+[a-z][ ]?=[ ]?[0-9]+ {yylval.str=yytext;
+			 return ASSIGNMENT;}
 
 [0-9]+		{yylval.number = atoi(yytext);
 			return INTEGER;}
@@ -37,3 +44,9 @@ True|False	{ if(yytext[0] == 'T')
 .			return yytext[0];
 
 %%
+
+
+int yywrap()
+{
+   return(1);
+}
