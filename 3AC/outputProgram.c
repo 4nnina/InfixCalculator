@@ -1,4 +1,10 @@
-a = 34;
+#include <stdio.h>
+#include <stdlib.h>
+
+void main(){
+int t1, t2, t3, a, b, t4;
+
+ a = 34;
 b=21;
 t1 = a - b;
 printf("%d\n", b);

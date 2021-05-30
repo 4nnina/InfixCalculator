@@ -11,842 +11,823 @@ Grammar
     2      | line
 
     3 line: EXIT
-    4     | expr '\n'
+    4     | PRINTLETTER
+    5     | expr '\n'
 
-    5 $@1: %empty
+    6 $@1: %empty
 
-    6 line: ASSIGNMENT $@1 '\n'
+    7 line: ASSIGNMENT $@1 '\n'
+    8     | LETTER '=' expr '\n'
+    9     | bexpr '\n'
 
-    7 $@2: %empty
+   10 $@2: %empty
 
-    8 $@3: %empty
+   11 $@3: %empty
 
-    9 line: LETTER '=' $@2 expr $@3 '\n'
-   10     | bexpr '\n'
+   12 line: IF bexpr $@2 THEN expr ELSE $@3 expr '\n'
 
-   11 $@4: %empty
+   13 bexpr: expr MEQUAL expr
+   14      | expr GEQUAL expr
+   15      | expr '<' expr
+   16      | expr '>' expr
+   17      | expr EQUAL expr
+   18      | expr NOTEQUAL expr
+   19      | '(' bexpr ')'
+   20      | BOOLEAN
 
-   12 $@5: %empty
-
-   13 line: IF bexpr $@4 THEN expr ELSE $@5 expr '\n'
-
-   14 bexpr: expr MEQUAL expr
-   15      | expr GEQUAL expr
-   16      | expr '<' expr
-   17      | expr '>' expr
-   18      | expr EQUAL expr
-   19      | expr NOTEQUAL expr
-   20      | '(' bexpr ')'
-   21      | BOOLEAN
-
-   22 expr: expr '+' expr
-   23     | expr '-' expr
-   24     | expr '*' expr
-   25     | expr '/' expr
-   26     | expr '%' expr
-   27     | '(' expr ')'
-   28     | INTEGER
-   29     | LETTER
+   21 expr: expr '+' expr
+   22     | expr '-' expr
+   23     | expr '*' expr
+   24     | expr '/' expr
+   25     | expr '%' expr
+   26     | '(' expr ')'
+   27     | INTEGER
+   28     | LETTER
 
 
 Terminals, with rules where they appear
 
     $end (0) 0
-    '\n' (10) 4 6 9 10 13
-    '%' (37) 26
-    '(' (40) 20 27
-    ')' (41) 20 27
-    '*' (42) 24
-    '+' (43) 22
-    '-' (45) 23
-    '/' (47) 25
-    '<' (60) 16
-    '=' (61) 9
-    '>' (62) 17
+    '\n' (10) 5 7 8 9 12
+    '%' (37) 25
+    '(' (40) 19 26
+    ')' (41) 19 26
+    '*' (42) 23
+    '+' (43) 21
+    '-' (45) 22
+    '/' (47) 24
+    '<' (60) 15
+    '=' (61) 8
+    '>' (62) 16
     '^' (94)
     error (256)
-    INTEGER <number> (258) 28
-    LETTER <letter> (259) 9 29
-    BOOLEAN <boolean> (260) 21
-    ASSIGNMENT <str> (261) 6
-    EQUAL (262) 18
-    NOTEQUAL (263) 19
-    MEQUAL (264) 14
-    GEQUAL (265) 15
-    IF (266) 13
-    THEN (267) 13
-    ELSE (268) 13
-    EXIT (269) 3
+    INTEGER <number> (258) 27
+    LETTER <letter> (259) 8 28
+    PRINTLETTER <letter> (260) 4
+    BOOLEAN <boolean> (261) 20
+    ASSIGNMENT <str> (262) 7
+    EQUAL (263) 17
+    NOTEQUAL (264) 18
+    MEQUAL (265) 13
+    GEQUAL (266) 14
+    IF (267) 12
+    THEN (268) 12
+    ELSE (269) 12
+    EXIT (270) 3
 
 
 Nonterminals, with rules where they appear
 
-    $accept (27)
+    $accept (28)
         on left: 0
-    lines (28)
+    lines (29)
         on left: 1 2
         on right: 0 1
-    line <produzione> (29)
-        on left: 3 4 6 9 10 13
+    line <produzione> (30)
+        on left: 3 4 5 7 8 9 12
         on right: 1 2
-    $@1 (30)
-        on left: 5
-        on right: 6
-    $@2 (31)
-        on left: 7
-        on right: 9
-    $@3 (32)
-        on left: 8
-        on right: 9
-    $@4 (33)
+    $@1 (31)
+        on left: 6
+        on right: 7
+    $@2 (32)
+        on left: 10
+        on right: 12
+    $@3 (33)
         on left: 11
-        on right: 13
-    $@5 (34)
-        on left: 12
-        on right: 13
-    bexpr <produzione> (35)
-        on left: 14 15 16 17 18 19 20 21
-        on right: 10 13 20
-    expr <produzione> (36)
-        on left: 22 23 24 25 26 27 28 29
-        on right: 4 9 13 14 15 16 17 18 19 22 23 24 25 26 27
+        on right: 12
+    bexpr <produzione> (34)
+        on left: 13 14 15 16 17 18 19 20
+        on right: 9 12 19
+    expr <produzione> (35)
+        on left: 21 22 23 24 25 26 27 28
+        on right: 5 8 12 13 14 15 16 17 18 21 22 23 24 25 26
 
 
 State 0
 
     0 $accept: . lines $end
 
-    INTEGER     shift, and go to state 1
-    LETTER      shift, and go to state 2
-    BOOLEAN     shift, and go to state 3
-    ASSIGNMENT  shift, and go to state 4
-    IF          shift, and go to state 5
-    EXIT        shift, and go to state 6
-    '('         shift, and go to state 7
+    INTEGER      shift, and go to state 1
+    LETTER       shift, and go to state 2
+    PRINTLETTER  shift, and go to state 3
+    BOOLEAN      shift, and go to state 4
+    ASSIGNMENT   shift, and go to state 5
+    IF           shift, and go to state 6
+    EXIT         shift, and go to state 7
+    '('          shift, and go to state 8
 
-    lines  go to state 8
-    line   go to state 9
-    bexpr  go to state 10
-    expr   go to state 11
+    lines  go to state 9
+    line   go to state 10
+    bexpr  go to state 11
+    expr   go to state 12
 
 
 State 1
 
-   28 expr: INTEGER .
+   27 expr: INTEGER .
 
-    $default  reduce using rule 28 (expr)
+    $default  reduce using rule 27 (expr)
 
 
 State 2
 
-    9 line: LETTER . '=' $@2 expr $@3 '\n'
-   29 expr: LETTER .
+    8 line: LETTER . '=' expr '\n'
+   28 expr: LETTER .
 
-    '='  shift, and go to state 12
+    '='  shift, and go to state 13
 
-    $default  reduce using rule 29 (expr)
+    $default  reduce using rule 28 (expr)
 
 
 State 3
 
-   21 bexpr: BOOLEAN .
+    4 line: PRINTLETTER .
 
-    $default  reduce using rule 21 (bexpr)
+    $default  reduce using rule 4 (line)
 
 
 State 4
 
-    6 line: ASSIGNMENT . $@1 '\n'
+   20 bexpr: BOOLEAN .
 
-    $default  reduce using rule 5 ($@1)
-
-    $@1  go to state 13
+    $default  reduce using rule 20 (bexpr)
 
 
 State 5
 
-   13 line: IF . bexpr $@4 THEN expr ELSE $@5 expr '\n'
+    7 line: ASSIGNMENT . $@1 '\n'
 
-    INTEGER  shift, and go to state 1
-    LETTER   shift, and go to state 14
-    BOOLEAN  shift, and go to state 3
-    '('      shift, and go to state 7
+    $default  reduce using rule 6 ($@1)
 
-    bexpr  go to state 15
-    expr   go to state 16
+    $@1  go to state 14
 
 
 State 6
+
+   12 line: IF . bexpr $@2 THEN expr ELSE $@3 expr '\n'
+
+    INTEGER  shift, and go to state 1
+    LETTER   shift, and go to state 15
+    BOOLEAN  shift, and go to state 4
+    '('      shift, and go to state 8
+
+    bexpr  go to state 16
+    expr   go to state 17
+
+
+State 7
 
     3 line: EXIT .
 
     $default  reduce using rule 3 (line)
 
 
-State 7
+State 8
 
-   20 bexpr: '(' . bexpr ')'
-   27 expr: '(' . expr ')'
+   19 bexpr: '(' . bexpr ')'
+   26 expr: '(' . expr ')'
 
     INTEGER  shift, and go to state 1
-    LETTER   shift, and go to state 14
-    BOOLEAN  shift, and go to state 3
-    '('      shift, and go to state 7
+    LETTER   shift, and go to state 15
+    BOOLEAN  shift, and go to state 4
+    '('      shift, and go to state 8
 
-    bexpr  go to state 17
-    expr   go to state 18
+    bexpr  go to state 18
+    expr   go to state 19
 
 
-State 8
+State 9
 
     0 $accept: lines . $end
     1 lines: lines . line
 
-    $end        shift, and go to state 19
-    INTEGER     shift, and go to state 1
-    LETTER      shift, and go to state 2
-    BOOLEAN     shift, and go to state 3
-    ASSIGNMENT  shift, and go to state 4
-    IF          shift, and go to state 5
-    EXIT        shift, and go to state 6
-    '('         shift, and go to state 7
+    $end         shift, and go to state 20
+    INTEGER      shift, and go to state 1
+    LETTER       shift, and go to state 2
+    PRINTLETTER  shift, and go to state 3
+    BOOLEAN      shift, and go to state 4
+    ASSIGNMENT   shift, and go to state 5
+    IF           shift, and go to state 6
+    EXIT         shift, and go to state 7
+    '('          shift, and go to state 8
 
-    line   go to state 20
-    bexpr  go to state 10
-    expr   go to state 11
+    line   go to state 21
+    bexpr  go to state 11
+    expr   go to state 12
 
 
-State 9
+State 10
 
     2 lines: line .
 
     $default  reduce using rule 2 (lines)
 
 
-State 10
-
-   10 line: bexpr . '\n'
-
-    '\n'  shift, and go to state 21
-
-
 State 11
 
-    4 line: expr . '\n'
-   14 bexpr: expr . MEQUAL expr
-   15      | expr . GEQUAL expr
-   16      | expr . '<' expr
-   17      | expr . '>' expr
-   18      | expr . EQUAL expr
-   19      | expr . NOTEQUAL expr
-   22 expr: expr . '+' expr
-   23     | expr . '-' expr
-   24     | expr . '*' expr
-   25     | expr . '/' expr
-   26     | expr . '%' expr
+    9 line: bexpr . '\n'
 
-    EQUAL     shift, and go to state 22
-    NOTEQUAL  shift, and go to state 23
-    MEQUAL    shift, and go to state 24
-    GEQUAL    shift, and go to state 25
-    '+'       shift, and go to state 26
-    '-'       shift, and go to state 27
-    '*'       shift, and go to state 28
-    '/'       shift, and go to state 29
-    '%'       shift, and go to state 30
-    '\n'      shift, and go to state 31
-    '<'       shift, and go to state 32
-    '>'       shift, and go to state 33
+    '\n'  shift, and go to state 22
 
 
 State 12
 
-    9 line: LETTER '=' . $@2 expr $@3 '\n'
+    5 line: expr . '\n'
+   13 bexpr: expr . MEQUAL expr
+   14      | expr . GEQUAL expr
+   15      | expr . '<' expr
+   16      | expr . '>' expr
+   17      | expr . EQUAL expr
+   18      | expr . NOTEQUAL expr
+   21 expr: expr . '+' expr
+   22     | expr . '-' expr
+   23     | expr . '*' expr
+   24     | expr . '/' expr
+   25     | expr . '%' expr
 
-    $default  reduce using rule 7 ($@2)
-
-    $@2  go to state 34
+    EQUAL     shift, and go to state 23
+    NOTEQUAL  shift, and go to state 24
+    MEQUAL    shift, and go to state 25
+    GEQUAL    shift, and go to state 26
+    '+'       shift, and go to state 27
+    '-'       shift, and go to state 28
+    '*'       shift, and go to state 29
+    '/'       shift, and go to state 30
+    '%'       shift, and go to state 31
+    '\n'      shift, and go to state 32
+    '<'       shift, and go to state 33
+    '>'       shift, and go to state 34
 
 
 State 13
 
-    6 line: ASSIGNMENT $@1 . '\n'
+    8 line: LETTER '=' . expr '\n'
 
-    '\n'  shift, and go to state 35
+    INTEGER  shift, and go to state 1
+    LETTER   shift, and go to state 15
+    '('      shift, and go to state 35
+
+    expr  go to state 36
 
 
 State 14
 
-   29 expr: LETTER .
+    7 line: ASSIGNMENT $@1 . '\n'
 
-    $default  reduce using rule 29 (expr)
+    '\n'  shift, and go to state 37
 
 
 State 15
 
-   13 line: IF bexpr . $@4 THEN expr ELSE $@5 expr '\n'
+   28 expr: LETTER .
 
-    $default  reduce using rule 11 ($@4)
-
-    $@4  go to state 36
+    $default  reduce using rule 28 (expr)
 
 
 State 16
 
-   14 bexpr: expr . MEQUAL expr
-   15      | expr . GEQUAL expr
-   16      | expr . '<' expr
-   17      | expr . '>' expr
-   18      | expr . EQUAL expr
-   19      | expr . NOTEQUAL expr
-   22 expr: expr . '+' expr
-   23     | expr . '-' expr
-   24     | expr . '*' expr
-   25     | expr . '/' expr
-   26     | expr . '%' expr
+   12 line: IF bexpr . $@2 THEN expr ELSE $@3 expr '\n'
 
-    EQUAL     shift, and go to state 22
-    NOTEQUAL  shift, and go to state 23
-    MEQUAL    shift, and go to state 24
-    GEQUAL    shift, and go to state 25
-    '+'       shift, and go to state 26
-    '-'       shift, and go to state 27
-    '*'       shift, and go to state 28
-    '/'       shift, and go to state 29
-    '%'       shift, and go to state 30
-    '<'       shift, and go to state 32
-    '>'       shift, and go to state 33
+    $default  reduce using rule 10 ($@2)
+
+    $@2  go to state 38
 
 
 State 17
 
-   20 bexpr: '(' bexpr . ')'
+   13 bexpr: expr . MEQUAL expr
+   14      | expr . GEQUAL expr
+   15      | expr . '<' expr
+   16      | expr . '>' expr
+   17      | expr . EQUAL expr
+   18      | expr . NOTEQUAL expr
+   21 expr: expr . '+' expr
+   22     | expr . '-' expr
+   23     | expr . '*' expr
+   24     | expr . '/' expr
+   25     | expr . '%' expr
 
-    ')'  shift, and go to state 37
+    EQUAL     shift, and go to state 23
+    NOTEQUAL  shift, and go to state 24
+    MEQUAL    shift, and go to state 25
+    GEQUAL    shift, and go to state 26
+    '+'       shift, and go to state 27
+    '-'       shift, and go to state 28
+    '*'       shift, and go to state 29
+    '/'       shift, and go to state 30
+    '%'       shift, and go to state 31
+    '<'       shift, and go to state 33
+    '>'       shift, and go to state 34
 
 
 State 18
 
-   14 bexpr: expr . MEQUAL expr
-   15      | expr . GEQUAL expr
-   16      | expr . '<' expr
-   17      | expr . '>' expr
-   18      | expr . EQUAL expr
-   19      | expr . NOTEQUAL expr
-   22 expr: expr . '+' expr
-   23     | expr . '-' expr
-   24     | expr . '*' expr
-   25     | expr . '/' expr
-   26     | expr . '%' expr
-   27     | '(' expr . ')'
+   19 bexpr: '(' bexpr . ')'
 
-    EQUAL     shift, and go to state 22
-    NOTEQUAL  shift, and go to state 23
-    MEQUAL    shift, and go to state 24
-    GEQUAL    shift, and go to state 25
-    '+'       shift, and go to state 26
-    '-'       shift, and go to state 27
-    '*'       shift, and go to state 28
-    '/'       shift, and go to state 29
-    '%'       shift, and go to state 30
-    ')'       shift, and go to state 38
-    '<'       shift, and go to state 32
-    '>'       shift, and go to state 33
+    ')'  shift, and go to state 39
 
 
 State 19
+
+   13 bexpr: expr . MEQUAL expr
+   14      | expr . GEQUAL expr
+   15      | expr . '<' expr
+   16      | expr . '>' expr
+   17      | expr . EQUAL expr
+   18      | expr . NOTEQUAL expr
+   21 expr: expr . '+' expr
+   22     | expr . '-' expr
+   23     | expr . '*' expr
+   24     | expr . '/' expr
+   25     | expr . '%' expr
+   26     | '(' expr . ')'
+
+    EQUAL     shift, and go to state 23
+    NOTEQUAL  shift, and go to state 24
+    MEQUAL    shift, and go to state 25
+    GEQUAL    shift, and go to state 26
+    '+'       shift, and go to state 27
+    '-'       shift, and go to state 28
+    '*'       shift, and go to state 29
+    '/'       shift, and go to state 30
+    '%'       shift, and go to state 31
+    ')'       shift, and go to state 40
+    '<'       shift, and go to state 33
+    '>'       shift, and go to state 34
+
+
+State 20
 
     0 $accept: lines $end .
 
     $default  accept
 
 
-State 20
+State 21
 
     1 lines: lines line .
 
     $default  reduce using rule 1 (lines)
 
 
-State 21
-
-   10 line: bexpr '\n' .
-
-    $default  reduce using rule 10 (line)
-
-
 State 22
 
-   18 bexpr: expr EQUAL . expr
+    9 line: bexpr '\n' .
 
-    INTEGER  shift, and go to state 1
-    LETTER   shift, and go to state 14
-    '('      shift, and go to state 39
-
-    expr  go to state 40
+    $default  reduce using rule 9 (line)
 
 
 State 23
 
-   19 bexpr: expr NOTEQUAL . expr
+   17 bexpr: expr EQUAL . expr
 
     INTEGER  shift, and go to state 1
-    LETTER   shift, and go to state 14
-    '('      shift, and go to state 39
+    LETTER   shift, and go to state 15
+    '('      shift, and go to state 35
 
     expr  go to state 41
 
 
 State 24
 
-   14 bexpr: expr MEQUAL . expr
+   18 bexpr: expr NOTEQUAL . expr
 
     INTEGER  shift, and go to state 1
-    LETTER   shift, and go to state 14
-    '('      shift, and go to state 39
+    LETTER   shift, and go to state 15
+    '('      shift, and go to state 35
 
     expr  go to state 42
 
 
 State 25
 
-   15 bexpr: expr GEQUAL . expr
+   13 bexpr: expr MEQUAL . expr
 
     INTEGER  shift, and go to state 1
-    LETTER   shift, and go to state 14
-    '('      shift, and go to state 39
+    LETTER   shift, and go to state 15
+    '('      shift, and go to state 35
 
     expr  go to state 43
 
 
 State 26
 
-   22 expr: expr '+' . expr
+   14 bexpr: expr GEQUAL . expr
 
     INTEGER  shift, and go to state 1
-    LETTER   shift, and go to state 14
-    '('      shift, and go to state 39
+    LETTER   shift, and go to state 15
+    '('      shift, and go to state 35
 
     expr  go to state 44
 
 
 State 27
 
-   23 expr: expr '-' . expr
+   21 expr: expr '+' . expr
 
     INTEGER  shift, and go to state 1
-    LETTER   shift, and go to state 14
-    '('      shift, and go to state 39
+    LETTER   shift, and go to state 15
+    '('      shift, and go to state 35
 
     expr  go to state 45
 
 
 State 28
 
-   24 expr: expr '*' . expr
+   22 expr: expr '-' . expr
 
     INTEGER  shift, and go to state 1
-    LETTER   shift, and go to state 14
-    '('      shift, and go to state 39
+    LETTER   shift, and go to state 15
+    '('      shift, and go to state 35
 
     expr  go to state 46
 
 
 State 29
 
-   25 expr: expr '/' . expr
+   23 expr: expr '*' . expr
 
     INTEGER  shift, and go to state 1
-    LETTER   shift, and go to state 14
-    '('      shift, and go to state 39
+    LETTER   shift, and go to state 15
+    '('      shift, and go to state 35
 
     expr  go to state 47
 
 
 State 30
 
-   26 expr: expr '%' . expr
+   24 expr: expr '/' . expr
 
     INTEGER  shift, and go to state 1
-    LETTER   shift, and go to state 14
-    '('      shift, and go to state 39
+    LETTER   shift, and go to state 15
+    '('      shift, and go to state 35
 
     expr  go to state 48
 
 
 State 31
 
-    4 line: expr '\n' .
-
-    $default  reduce using rule 4 (line)
-
-
-State 32
-
-   16 bexpr: expr '<' . expr
+   25 expr: expr '%' . expr
 
     INTEGER  shift, and go to state 1
-    LETTER   shift, and go to state 14
-    '('      shift, and go to state 39
+    LETTER   shift, and go to state 15
+    '('      shift, and go to state 35
 
     expr  go to state 49
 
 
+State 32
+
+    5 line: expr '\n' .
+
+    $default  reduce using rule 5 (line)
+
+
 State 33
 
-   17 bexpr: expr '>' . expr
+   15 bexpr: expr '<' . expr
 
     INTEGER  shift, and go to state 1
-    LETTER   shift, and go to state 14
-    '('      shift, and go to state 39
+    LETTER   shift, and go to state 15
+    '('      shift, and go to state 35
 
     expr  go to state 50
 
 
 State 34
 
-    9 line: LETTER '=' $@2 . expr $@3 '\n'
+   16 bexpr: expr '>' . expr
 
     INTEGER  shift, and go to state 1
-    LETTER   shift, and go to state 14
-    '('      shift, and go to state 39
+    LETTER   shift, and go to state 15
+    '('      shift, and go to state 35
 
     expr  go to state 51
 
 
 State 35
 
-    6 line: ASSIGNMENT $@1 '\n' .
+   26 expr: '(' . expr ')'
 
-    $default  reduce using rule 6 (line)
+    INTEGER  shift, and go to state 1
+    LETTER   shift, and go to state 15
+    '('      shift, and go to state 35
+
+    expr  go to state 52
 
 
 State 36
 
-   13 line: IF bexpr $@4 . THEN expr ELSE $@5 expr '\n'
+    8 line: LETTER '=' expr . '\n'
+   21 expr: expr . '+' expr
+   22     | expr . '-' expr
+   23     | expr . '*' expr
+   24     | expr . '/' expr
+   25     | expr . '%' expr
 
-    THEN  shift, and go to state 52
+    '+'   shift, and go to state 27
+    '-'   shift, and go to state 28
+    '*'   shift, and go to state 29
+    '/'   shift, and go to state 30
+    '%'   shift, and go to state 31
+    '\n'  shift, and go to state 53
 
 
 State 37
 
-   20 bexpr: '(' bexpr ')' .
+    7 line: ASSIGNMENT $@1 '\n' .
 
-    $default  reduce using rule 20 (bexpr)
+    $default  reduce using rule 7 (line)
 
 
 State 38
 
-   27 expr: '(' expr ')' .
+   12 line: IF bexpr $@2 . THEN expr ELSE $@3 expr '\n'
 
-    $default  reduce using rule 27 (expr)
+    THEN  shift, and go to state 54
 
 
 State 39
 
-   27 expr: '(' . expr ')'
-
-    INTEGER  shift, and go to state 1
-    LETTER   shift, and go to state 14
-    '('      shift, and go to state 39
-
-    expr  go to state 53
-
-
-State 40
-
-   18 bexpr: expr EQUAL expr .
-   22 expr: expr . '+' expr
-   23     | expr . '-' expr
-   24     | expr . '*' expr
-   25     | expr . '/' expr
-   26     | expr . '%' expr
-
-    '+'  shift, and go to state 26
-    '-'  shift, and go to state 27
-    '*'  shift, and go to state 28
-    '/'  shift, and go to state 29
-    '%'  shift, and go to state 30
-
-    $default  reduce using rule 18 (bexpr)
-
-
-State 41
-
-   19 bexpr: expr NOTEQUAL expr .
-   22 expr: expr . '+' expr
-   23     | expr . '-' expr
-   24     | expr . '*' expr
-   25     | expr . '/' expr
-   26     | expr . '%' expr
-
-    '+'  shift, and go to state 26
-    '-'  shift, and go to state 27
-    '*'  shift, and go to state 28
-    '/'  shift, and go to state 29
-    '%'  shift, and go to state 30
+   19 bexpr: '(' bexpr ')' .
 
     $default  reduce using rule 19 (bexpr)
 
 
-State 42
+State 40
 
-   14 bexpr: expr MEQUAL expr .
-   22 expr: expr . '+' expr
-   23     | expr . '-' expr
-   24     | expr . '*' expr
-   25     | expr . '/' expr
-   26     | expr . '%' expr
-
-    '+'  shift, and go to state 26
-    '-'  shift, and go to state 27
-    '*'  shift, and go to state 28
-    '/'  shift, and go to state 29
-    '%'  shift, and go to state 30
-
-    $default  reduce using rule 14 (bexpr)
-
-
-State 43
-
-   15 bexpr: expr GEQUAL expr .
-   22 expr: expr . '+' expr
-   23     | expr . '-' expr
-   24     | expr . '*' expr
-   25     | expr . '/' expr
-   26     | expr . '%' expr
-
-    '+'  shift, and go to state 26
-    '-'  shift, and go to state 27
-    '*'  shift, and go to state 28
-    '/'  shift, and go to state 29
-    '%'  shift, and go to state 30
-
-    $default  reduce using rule 15 (bexpr)
-
-
-State 44
-
-   22 expr: expr . '+' expr
-   22     | expr '+' expr .
-   23     | expr . '-' expr
-   24     | expr . '*' expr
-   25     | expr . '/' expr
-   26     | expr . '%' expr
-
-    '*'  shift, and go to state 28
-    '/'  shift, and go to state 29
-    '%'  shift, and go to state 30
-
-    $default  reduce using rule 22 (expr)
-
-
-State 45
-
-   22 expr: expr . '+' expr
-   23     | expr . '-' expr
-   23     | expr '-' expr .
-   24     | expr . '*' expr
-   25     | expr . '/' expr
-   26     | expr . '%' expr
-
-    '*'  shift, and go to state 28
-    '/'  shift, and go to state 29
-    '%'  shift, and go to state 30
-
-    $default  reduce using rule 23 (expr)
-
-
-State 46
-
-   22 expr: expr . '+' expr
-   23     | expr . '-' expr
-   24     | expr . '*' expr
-   24     | expr '*' expr .
-   25     | expr . '/' expr
-   26     | expr . '%' expr
-
-    $default  reduce using rule 24 (expr)
-
-
-State 47
-
-   22 expr: expr . '+' expr
-   23     | expr . '-' expr
-   24     | expr . '*' expr
-   25     | expr . '/' expr
-   25     | expr '/' expr .
-   26     | expr . '%' expr
-
-    $default  reduce using rule 25 (expr)
-
-
-State 48
-
-   22 expr: expr . '+' expr
-   23     | expr . '-' expr
-   24     | expr . '*' expr
-   25     | expr . '/' expr
-   26     | expr . '%' expr
-   26     | expr '%' expr .
+   26 expr: '(' expr ')' .
 
     $default  reduce using rule 26 (expr)
 
 
-State 49
+State 41
 
-   16 bexpr: expr '<' expr .
-   22 expr: expr . '+' expr
-   23     | expr . '-' expr
-   24     | expr . '*' expr
-   25     | expr . '/' expr
-   26     | expr . '%' expr
+   17 bexpr: expr EQUAL expr .
+   21 expr: expr . '+' expr
+   22     | expr . '-' expr
+   23     | expr . '*' expr
+   24     | expr . '/' expr
+   25     | expr . '%' expr
 
-    '+'  shift, and go to state 26
-    '-'  shift, and go to state 27
-    '*'  shift, and go to state 28
-    '/'  shift, and go to state 29
-    '%'  shift, and go to state 30
-
-    $default  reduce using rule 16 (bexpr)
-
-
-State 50
-
-   17 bexpr: expr '>' expr .
-   22 expr: expr . '+' expr
-   23     | expr . '-' expr
-   24     | expr . '*' expr
-   25     | expr . '/' expr
-   26     | expr . '%' expr
-
-    '+'  shift, and go to state 26
-    '-'  shift, and go to state 27
-    '*'  shift, and go to state 28
-    '/'  shift, and go to state 29
-    '%'  shift, and go to state 30
+    '+'  shift, and go to state 27
+    '-'  shift, and go to state 28
+    '*'  shift, and go to state 29
+    '/'  shift, and go to state 30
+    '%'  shift, and go to state 31
 
     $default  reduce using rule 17 (bexpr)
 
 
+State 42
+
+   18 bexpr: expr NOTEQUAL expr .
+   21 expr: expr . '+' expr
+   22     | expr . '-' expr
+   23     | expr . '*' expr
+   24     | expr . '/' expr
+   25     | expr . '%' expr
+
+    '+'  shift, and go to state 27
+    '-'  shift, and go to state 28
+    '*'  shift, and go to state 29
+    '/'  shift, and go to state 30
+    '%'  shift, and go to state 31
+
+    $default  reduce using rule 18 (bexpr)
+
+
+State 43
+
+   13 bexpr: expr MEQUAL expr .
+   21 expr: expr . '+' expr
+   22     | expr . '-' expr
+   23     | expr . '*' expr
+   24     | expr . '/' expr
+   25     | expr . '%' expr
+
+    '+'  shift, and go to state 27
+    '-'  shift, and go to state 28
+    '*'  shift, and go to state 29
+    '/'  shift, and go to state 30
+    '%'  shift, and go to state 31
+
+    $default  reduce using rule 13 (bexpr)
+
+
+State 44
+
+   14 bexpr: expr GEQUAL expr .
+   21 expr: expr . '+' expr
+   22     | expr . '-' expr
+   23     | expr . '*' expr
+   24     | expr . '/' expr
+   25     | expr . '%' expr
+
+    '+'  shift, and go to state 27
+    '-'  shift, and go to state 28
+    '*'  shift, and go to state 29
+    '/'  shift, and go to state 30
+    '%'  shift, and go to state 31
+
+    $default  reduce using rule 14 (bexpr)
+
+
+State 45
+
+   21 expr: expr . '+' expr
+   21     | expr '+' expr .
+   22     | expr . '-' expr
+   23     | expr . '*' expr
+   24     | expr . '/' expr
+   25     | expr . '%' expr
+
+    '*'  shift, and go to state 29
+    '/'  shift, and go to state 30
+    '%'  shift, and go to state 31
+
+    $default  reduce using rule 21 (expr)
+
+
+State 46
+
+   21 expr: expr . '+' expr
+   22     | expr . '-' expr
+   22     | expr '-' expr .
+   23     | expr . '*' expr
+   24     | expr . '/' expr
+   25     | expr . '%' expr
+
+    '*'  shift, and go to state 29
+    '/'  shift, and go to state 30
+    '%'  shift, and go to state 31
+
+    $default  reduce using rule 22 (expr)
+
+
+State 47
+
+   21 expr: expr . '+' expr
+   22     | expr . '-' expr
+   23     | expr . '*' expr
+   23     | expr '*' expr .
+   24     | expr . '/' expr
+   25     | expr . '%' expr
+
+    $default  reduce using rule 23 (expr)
+
+
+State 48
+
+   21 expr: expr . '+' expr
+   22     | expr . '-' expr
+   23     | expr . '*' expr
+   24     | expr . '/' expr
+   24     | expr '/' expr .
+   25     | expr . '%' expr
+
+    $default  reduce using rule 24 (expr)
+
+
+State 49
+
+   21 expr: expr . '+' expr
+   22     | expr . '-' expr
+   23     | expr . '*' expr
+   24     | expr . '/' expr
+   25     | expr . '%' expr
+   25     | expr '%' expr .
+
+    $default  reduce using rule 25 (expr)
+
+
+State 50
+
+   15 bexpr: expr '<' expr .
+   21 expr: expr . '+' expr
+   22     | expr . '-' expr
+   23     | expr . '*' expr
+   24     | expr . '/' expr
+   25     | expr . '%' expr
+
+    '+'  shift, and go to state 27
+    '-'  shift, and go to state 28
+    '*'  shift, and go to state 29
+    '/'  shift, and go to state 30
+    '%'  shift, and go to state 31
+
+    $default  reduce using rule 15 (bexpr)
+
+
 State 51
 
-    9 line: LETTER '=' $@2 expr . $@3 '\n'
-   22 expr: expr . '+' expr
-   23     | expr . '-' expr
-   24     | expr . '*' expr
-   25     | expr . '/' expr
-   26     | expr . '%' expr
+   16 bexpr: expr '>' expr .
+   21 expr: expr . '+' expr
+   22     | expr . '-' expr
+   23     | expr . '*' expr
+   24     | expr . '/' expr
+   25     | expr . '%' expr
 
-    '+'  shift, and go to state 26
-    '-'  shift, and go to state 27
-    '*'  shift, and go to state 28
-    '/'  shift, and go to state 29
-    '%'  shift, and go to state 30
+    '+'  shift, and go to state 27
+    '-'  shift, and go to state 28
+    '*'  shift, and go to state 29
+    '/'  shift, and go to state 30
+    '%'  shift, and go to state 31
 
-    $default  reduce using rule 8 ($@3)
-
-    $@3  go to state 54
+    $default  reduce using rule 16 (bexpr)
 
 
 State 52
 
-   13 line: IF bexpr $@4 THEN . expr ELSE $@5 expr '\n'
+   21 expr: expr . '+' expr
+   22     | expr . '-' expr
+   23     | expr . '*' expr
+   24     | expr . '/' expr
+   25     | expr . '%' expr
+   26     | '(' expr . ')'
 
-    INTEGER  shift, and go to state 1
-    LETTER   shift, and go to state 14
-    '('      shift, and go to state 39
-
-    expr  go to state 55
+    '+'  shift, and go to state 27
+    '-'  shift, and go to state 28
+    '*'  shift, and go to state 29
+    '/'  shift, and go to state 30
+    '%'  shift, and go to state 31
+    ')'  shift, and go to state 40
 
 
 State 53
 
-   22 expr: expr . '+' expr
-   23     | expr . '-' expr
-   24     | expr . '*' expr
-   25     | expr . '/' expr
-   26     | expr . '%' expr
-   27     | '(' expr . ')'
+    8 line: LETTER '=' expr '\n' .
 
-    '+'  shift, and go to state 26
-    '-'  shift, and go to state 27
-    '*'  shift, and go to state 28
-    '/'  shift, and go to state 29
-    '%'  shift, and go to state 30
-    ')'  shift, and go to state 38
+    $default  reduce using rule 8 (line)
 
 
 State 54
 
-    9 line: LETTER '=' $@2 expr $@3 . '\n'
+   12 line: IF bexpr $@2 THEN . expr ELSE $@3 expr '\n'
 
-    '\n'  shift, and go to state 56
+    INTEGER  shift, and go to state 1
+    LETTER   shift, and go to state 15
+    '('      shift, and go to state 35
+
+    expr  go to state 55
 
 
 State 55
 
-   13 line: IF bexpr $@4 THEN expr . ELSE $@5 expr '\n'
-   22 expr: expr . '+' expr
-   23     | expr . '-' expr
-   24     | expr . '*' expr
-   25     | expr . '/' expr
-   26     | expr . '%' expr
+   12 line: IF bexpr $@2 THEN expr . ELSE $@3 expr '\n'
+   21 expr: expr . '+' expr
+   22     | expr . '-' expr
+   23     | expr . '*' expr
+   24     | expr . '/' expr
+   25     | expr . '%' expr
 
-    ELSE  shift, and go to state 57
-    '+'   shift, and go to state 26
-    '-'   shift, and go to state 27
-    '*'   shift, and go to state 28
-    '/'   shift, and go to state 29
-    '%'   shift, and go to state 30
+    ELSE  shift, and go to state 56
+    '+'   shift, and go to state 27
+    '-'   shift, and go to state 28
+    '*'   shift, and go to state 29
+    '/'   shift, and go to state 30
+    '%'   shift, and go to state 31
 
 
 State 56
 
-    9 line: LETTER '=' $@2 expr $@3 '\n' .
+   12 line: IF bexpr $@2 THEN expr ELSE . $@3 expr '\n'
 
-    $default  reduce using rule 9 (line)
+    $default  reduce using rule 11 ($@3)
+
+    $@3  go to state 57
 
 
 State 57
 
-   13 line: IF bexpr $@4 THEN expr ELSE . $@5 expr '\n'
+   12 line: IF bexpr $@2 THEN expr ELSE $@3 . expr '\n'
 
-    $default  reduce using rule 12 ($@5)
+    INTEGER  shift, and go to state 1
+    LETTER   shift, and go to state 15
+    '('      shift, and go to state 35
 
-    $@5  go to state 58
+    expr  go to state 58
 
 
 State 58
 
-   13 line: IF bexpr $@4 THEN expr ELSE $@5 . expr '\n'
+   12 line: IF bexpr $@2 THEN expr ELSE $@3 expr . '\n'
+   21 expr: expr . '+' expr
+   22     | expr . '-' expr
+   23     | expr . '*' expr
+   24     | expr . '/' expr
+   25     | expr . '%' expr
 
-    INTEGER  shift, and go to state 1
-    LETTER   shift, and go to state 14
-    '('      shift, and go to state 39
-
-    expr  go to state 59
+    '+'   shift, and go to state 27
+    '-'   shift, and go to state 28
+    '*'   shift, and go to state 29
+    '/'   shift, and go to state 30
+    '%'   shift, and go to state 31
+    '\n'  shift, and go to state 59
 
 
 State 59
 
-   13 line: IF bexpr $@4 THEN expr ELSE $@5 expr . '\n'
-   22 expr: expr . '+' expr
-   23     | expr . '-' expr
-   24     | expr . '*' expr
-   25     | expr . '/' expr
-   26     | expr . '%' expr
+   12 line: IF bexpr $@2 THEN expr ELSE $@3 expr '\n' .
 
-    '+'   shift, and go to state 26
-    '-'   shift, and go to state 27
-    '*'   shift, and go to state 28
-    '/'   shift, and go to state 29
-    '%'   shift, and go to state 30
-    '\n'  shift, and go to state 60
-
-
-State 60
-
-   13 line: IF bexpr $@4 THEN expr ELSE $@5 expr '\n' .
-
-    $default  reduce using rule 13 (line)
+    $default  reduce using rule 12 (line)

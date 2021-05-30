@@ -7,17 +7,20 @@
 	#define TMP 30
 	//UN CARATTERE NON DELL'ALFABETO E NON ANCORA CONSIDERATO VARIABILE TEMPORANEA, PARTONO DA 30
 	#define NUMBER 28 
+	#define ALPHA 26
 	
 	int yylex();
 	int yyparse();
 	void yyerror(char const *s);
 
-	int regs[26];
+	int regs[ALPHA];
+	char vars[ALPHA];
 
 	FILE *fd, *program;
 	int count_tmp = TMP;
 	int tmp = TMP;
 	int count_par = 0;
+
 	
 	int executeOp(Prod arg1, char op, Prod arg2){
 		count_tmp += 1;
@@ -25,31 +28,31 @@
 		//	fprintf(fd, "t%d =", count_tmp-tmp) 
 
 		if (arg1.id >= tmp && arg2.id >= tmp)
-			fprintf(fd, "int t%d = t%d %c t%d;\n", count_tmp-tmp, arg1.id-tmp, op, arg2.id-tmp);
+			fprintf(fd, "t%d = t%d %c t%d;\n", count_tmp-tmp, arg1.id-tmp, op, arg2.id-tmp);
 		else if (arg1.id >= tmp && arg2.id < tmp){
 			if (arg2.id == NUMBER)	
-				fprintf(fd, "int t%d = t%d %c %d;\n", count_tmp-tmp, arg1.id-tmp, op, arg2.num);
+				fprintf(fd, "t%d = t%d %c %d;\n", count_tmp-tmp, arg1.id-tmp, op, arg2.num);
 			else
-				fprintf(fd, "int t%d = t%d %c %c;\n", count_tmp-tmp, arg1.id-tmp, op, arg2.id+'a');
+				fprintf(fd, "t%d = t%d %c %c;\n", count_tmp-tmp, arg1.id-tmp, op, arg2.id+'a');
 		}
 		else if (arg1.id < tmp && arg2.id >= tmp){
 			if(arg1.id == NUMBER)
-				fprintf(fd, "int t%d = %d %c t%d;\n", count_tmp-tmp, arg1.num, op, arg2.id-tmp);
+				fprintf(fd, "t%d = %d %c t%d;\n", count_tmp-tmp, arg1.num, op, arg2.id-tmp);
 			else
-				fprintf(fd, "int t%d = %c %c t%d;\n", count_tmp-tmp, arg1.id+'a', op, arg2.id-tmp);
+				fprintf(fd, "t%d = %c %c t%d;\n", count_tmp-tmp, arg1.id+'a', op, arg2.id-tmp);
 		}
 		else{
 			if(arg1.id == NUMBER){
 				if(arg2.id == NUMBER)
-					fprintf(fd, "int t%d = %d %c %d;\n", count_tmp-tmp, arg1.num, op, arg2.num);
+					fprintf(fd, "t%d = %d %c %d;\n", count_tmp-tmp, arg1.num, op, arg2.num);
 				else	
-					fprintf(fd, "int t%d = %d %c %c;\n", count_tmp-tmp, arg1.num, op, arg2.id+'a');
+					fprintf(fd, "t%d = %d %c %c;\n", count_tmp-tmp, arg1.num, op, arg2.id+'a');
 			}
 			else{
 				if(arg2.id == NUMBER)
-					fprintf(fd, "int t%d = %c %c %d;\n", count_tmp-tmp, arg1.id+'a', op, arg2.num);
+					fprintf(fd, "t%d = %c %c %d;\n", count_tmp-tmp, arg1.id+'a', op, arg2.num);
 				else
-					fprintf(fd, "int t%d = %c %c %c;\n", count_tmp-tmp, arg1.id+'a', op, arg2.id+'a');
+					fprintf(fd, "t%d = %c %c %c;\n", count_tmp-tmp, arg1.id+'a', op, arg2.id+'a');
 			}
 		}
 
@@ -62,31 +65,31 @@
 		//	fprintf(fd, "t%d =", count_tmp-tmp) 
 
 		if (arg1.id >= tmp && arg2.id >= tmp)
-			fprintf(fd, "int t%d = t%d %s t%d;\n", count_tmp-tmp, arg1.id-tmp, op, arg2.id-tmp);
+			fprintf(fd, "t%d = t%d %s t%d;\n", count_tmp-tmp, arg1.id-tmp, op, arg2.id-tmp);
 		else if (arg1.id >= tmp && arg2.id < tmp){
 			if(arg2.id == NUMBER)
-				fprintf(fd, "int t%d = t%d %s %d;\n", count_tmp-tmp, arg1.id-tmp, op, arg2.num);
+				fprintf(fd, "t%d = t%d %s %d;\n", count_tmp-tmp, arg1.id-tmp, op, arg2.num);
 			else
-				fprintf(fd, "int t%d = t%d %s %c;\n", count_tmp-tmp, arg1.id-tmp, op, arg2.id+'a');
+				fprintf(fd, "t%d = t%d %s %c;\n", count_tmp-tmp, arg1.id-tmp, op, arg2.id+'a');
 		}
 		else if (arg1.id < tmp && arg2.id >= tmp){
 			if(arg1.id == NUMBER)
-				fprintf(fd, "int t%d = %d %s t%d;\n", count_tmp-tmp, arg1.num, op, arg2.id-tmp);
+				fprintf(fd, "t%d = %d %s t%d;\n", count_tmp-tmp, arg1.num, op, arg2.id-tmp);
 			else
-				fprintf(fd, "int t%d = %c %s t%d;\n", count_tmp-tmp, arg1.id+'a', op, arg2.id-tmp);
+				fprintf(fd, "t%d = %c %s t%d;\n", count_tmp-tmp, arg1.id+'a', op, arg2.id-tmp);
 		}
 		else{
 			if(arg1.id == NUMBER){
 				if(arg2.id == NUMBER)
-					fprintf(fd, "int t%d = %d %s %d;\n", count_tmp-tmp, arg1.num, op, arg2.num);
+					fprintf(fd, "t%d = %d %s %d;\n", count_tmp-tmp, arg1.num, op, arg2.num);
 				else
-					fprintf(fd, "int t%d = %d %s %c;\n", count_tmp-tmp, arg1.num, op, arg2.id+'a');
+					fprintf(fd, "t%d = %d %s %c;\n", count_tmp-tmp, arg1.num, op, arg2.id+'a');
 			}
 			else{
 				if(arg2.id == NUMBER)
-					fprintf(fd, "int t%d = %c %s %d;\n", count_tmp-tmp, arg1.id+'a', op, arg2.num);
+					fprintf(fd, "t%d = %c %s %d;\n", count_tmp-tmp, arg1.id+'a', op, arg2.num);
 				else
-					fprintf(fd, "int t%d = %c %s %c;\n", count_tmp-tmp, arg1.id+'a', op, arg2.id+'a');
+					fprintf(fd, "t%d = %c %s %c;\n", count_tmp-tmp, arg1.id+'a', op, arg2.id+'a');
 			}
 		}
 
@@ -106,7 +109,7 @@
 		}
 		else{
 			fprintf(fd,"printf(\"%%d\\n\",t%d);\n", count_tmp-tmp); 
-			fprintf(fd, "goto end%d\n", count_par);
+			fprintf(fd, "goto end%d;\n", count_par);
 			fclose(fd);
 
 			fd = fopen("else.c", "a");
@@ -121,7 +124,7 @@
 
 	void mergeFile(){
 		fprintf(fd,"printf(\"%%d\\n\",t%d);\n", count_tmp-tmp); 
-		fprintf(fd, "\nend%d:\n", count_par-1);
+		fprintf(fd, "\nend%d: ;\n", count_par-1);
 		fclose(fd);
 
 		fd = program;
@@ -159,7 +162,7 @@
 }
 
 %token <number> INTEGER 
-%token <letter> LETTER
+%token <letter> LETTER PRINTLETTER
 %token <boolean> BOOLEAN
 %token <str> ASSIGNMENT
 %token EQUAL NOTEQUAL MEQUAL GEQUAL
@@ -183,15 +186,17 @@ lines:lines line
 
 line:EXIT												{return 1;}
 
+	|PRINTLETTER											{fprintf(fd, "printf(\"%%d\\n\", %c);\n",$1+'a');}
+
 	|expr'\n'	 										{ printf("= %d\n", $1.num); 
 														fprintf(fd,"printf(\"%%d\\n\",t%d);\n", count_tmp-tmp); }
-	|ASSIGNMENT {fprintf(fd, "int %s;\n", $1);} '\n'	{int numero=0;
+	|ASSIGNMENT {fprintf(fd, "%s;\n", $1);} '\n'	{int numero=0;
 														for (int i=2; $1[i]!='\0'; i++)
 															if($1[i]>47 && $1[i]<58)
 																numero = numero*10+($1[i]-48);
-														regs[$1[0]-'a'] = numero;}
-	|LETTER '=' {fprintf(fd, "int %c = ", $1 + 'a'); }
-	expr {fprintf(fd,";\n");}'\n'						{ regs[$1] = $4.num;}
+														regs[$1[0]-'a'] = numero;
+														vars[$1[0]-'a'] = '*';}
+	|LETTER '=' expr '\n'								{ regs[$1] = $3.num;}
 
 	|bexpr'\n'											{ if($1.num == 1)
 															printf("True\n");
@@ -264,11 +269,40 @@ void main(){
 		exit(0);
 	}
 		
-	fprintf(fd, "#include <stdio.h>\n#include <stdlib.h>\n\nvoid main(){\n");
-	
 	yyparse();
 
 	fprintf(fd, "\n}\n");
 	fclose(fd);
+
+	//dichiarazione var
+	FILE *file = fopen("outputProgram.c", "w");
+	fd = fopen("out.c", "r");
+
+	if (fd == NULL || file == NULL){
+		printf("Errore nell’apertura dei file di salvataggio!");
+		exit(0);
+	}
+
+	fprintf(file, "#include <stdio.h>\n#include <stdlib.h>\n\nvoid main(){\n");
+	int i = 0;
+	for( i=1; i<count_tmp-TMP; i++){
+		if(i == 1)
+			fprintf(file, "int ");
+
+		fprintf(file, "t%d, ", i);
+	}
+	for (int j = 0; j<ALPHA; j++){
+		if(vars[j] == '*')
+			fprintf(file, "%c, ", j+'a');
+	}
+	fprintf(file, "t%d;\n\n ", i);
+
+	char buffer[50];
+	while(fgets(buffer, sizeof(buffer), fd))
+		fprintf(file, "%s", buffer);
+	fclose(fd);
+	//fremove("out.c");
+
+	fclose(file);
 }
  

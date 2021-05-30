@@ -14,6 +14,10 @@ int c;
 
 exit[\n]	{return EXIT;}
 
+^[a-z][\n]	{c = yytext[0];
+			yylval.letter = c - 'a';
+			return PRINTLETTER;}
+
 [a-z][ ]?=[ ]?[0-9]+ {yylval.str=yytext;
 			 return ASSIGNMENT;}
 
