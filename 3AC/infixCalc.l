@@ -18,9 +18,11 @@ exit[\n]	{return EXIT;}
 			yylval.letter = c - 'a';
 			return PRINTLETTER;}
 
-[a-z][ ]?=[ ]?[0-9]+ {yylval.str=yytext;
-			 return ASSIGNMENT;}
-
+[a-z][ ]?=[ ]?[0-9]+[\n] {yylval.str=yytext;
+			 		return ASSIGNMENT;}
+[a-z][ ]?=[ ]?[a-z][\n] {yylval.str=yytext;
+			 		return ASSIGNMENTLETT;}
+					 
 [0-9]+		{yylval.number = atoi(yytext);
 			return INTEGER;}
 

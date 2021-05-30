@@ -54,14 +54,15 @@ extern int yydebug;
     PRINTLETTER = 260,
     BOOLEAN = 261,
     ASSIGNMENT = 262,
-    EQUAL = 263,
-    NOTEQUAL = 264,
-    MEQUAL = 265,
-    GEQUAL = 266,
-    IF = 267,
-    THEN = 268,
-    ELSE = 269,
-    EXIT = 270
+    ASSIGNMENTLETT = 263,
+    EQUAL = 264,
+    NOTEQUAL = 265,
+    MEQUAL = 266,
+    GEQUAL = 267,
+    IF = 268,
+    THEN = 269,
+    ELSE = 270,
+    EXIT = 271
   };
 #endif
 /* Tokens.  */
@@ -70,14 +71,15 @@ extern int yydebug;
 #define PRINTLETTER 260
 #define BOOLEAN 261
 #define ASSIGNMENT 262
-#define EQUAL 263
-#define NOTEQUAL 264
-#define MEQUAL 265
-#define GEQUAL 266
-#define IF 267
-#define THEN 268
-#define ELSE 269
-#define EXIT 270
+#define ASSIGNMENTLETT 263
+#define EQUAL 264
+#define NOTEQUAL 265
+#define MEQUAL 266
+#define GEQUAL 267
+#define IF 268
+#define THEN 269
+#define ELSE 270
+#define EXIT 271
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -91,7 +93,7 @@ union YYSTYPE
 	char *str;
 	struct Prod produzione;
 
-#line 95 "y.tab.h"
+#line 97 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -164,7 +164,7 @@
 %token <number> INTEGER 
 %token <letter> LETTER PRINTLETTER
 %token <boolean> BOOLEAN
-%token <str> ASSIGNMENT
+%token <str> ASSIGNMENT ASSIGNMENTLETT
 %token EQUAL NOTEQUAL MEQUAL GEQUAL
 %token IF THEN ELSE
 %token EXIT
@@ -186,17 +186,33 @@ lines:lines line
 
 line:EXIT												{return 1;}
 
-	|PRINTLETTER											{fprintf(fd, "printf(\"%%d\\n\", %c);\n",$1+'a');}
+	|PRINTLETTER											{fprintf(fd, "printf(\"%%d\\n\", %c);\n",$1+'a');
+															printf("= %d\n", regs[$1]);}
 
 	|expr'\n'	 										{ printf("= %d\n", $1.num); 
 														fprintf(fd,"printf(\"%%d\\n\",t%d);\n", count_tmp-tmp); }
-	|ASSIGNMENT {fprintf(fd, "%s;\n", $1);} '\n'	{int numero=0;
+
+	|ASSIGNMENT {for(int i=0; $1[i] != '\n';i++)
+					fprintf(fd, "%c", $1[i]);
+				fprintf(fd, ";\n");} 					{int numero=0;
 														for (int i=2; $1[i]!='\0'; i++)
-															if($1[i]>47 && $1[i]<58)
+															if($1[i]>47 && $1[i]<58)		//48=0
 																numero = numero*10+($1[i]-48);
 														regs[$1[0]-'a'] = numero;
 														vars[$1[0]-'a'] = '*';}
-	|LETTER '=' expr '\n'								{ regs[$1] = $3.num;}
+
+	|ASSIGNMENTLETT {for(int i=0; $1[i] != '\n';i++)
+						fprintf(fd, "%c", $1[i]);
+					fprintf(fd, ";\n");} 				{int lett;
+														for (int i=2; $1[i]!='\0'; i++)
+															if($1[i]>='a' && $1[i]<='z')
+																lett=$1[i]-'a';
+														regs[$1[0]-'a'] = regs[lett];
+														vars[$1[0]-'a'] = '*';}
+
+	|LETTER '=' expr '\n'								{ regs[$1] = $3.num;
+														 vars[$1] = '*';
+														 fprintf(fd,"%c = t%d;\n",$1+'a',count_tmp-tmp);}
 
 	|bexpr'\n'											{ if($1.num == 1)
 															printf("True\n");
@@ -285,23 +301,21 @@ void main(){
 
 	fprintf(file, "#include <stdio.h>\n#include <stdlib.h>\n\nvoid main(){\n");
 	int i = 0;
-	for( i=1; i<count_tmp-TMP; i++){
-		if(i == 1)
-			fprintf(file, "int ");
-
+	fprintf(file, "int ");
+	for( i=1; i<count_tmp-TMP; i++)
 		fprintf(file, "t%d, ", i);
-	}
-	for (int j = 0; j<ALPHA; j++){
+	
+	for (int j = 0; j<ALPHA; j++)
 		if(vars[j] == '*')
 			fprintf(file, "%c, ", j+'a');
-	}
+	
 	fprintf(file, "t%d;\n\n ", i);
 
 	char buffer[50];
 	while(fgets(buffer, sizeof(buffer), fd))
 		fprintf(file, "%s", buffer);
 	fclose(fd);
-	//fremove("out.c");
+	remove("out.c");
 
 	fclose(file);
 }
