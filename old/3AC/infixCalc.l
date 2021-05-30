@@ -20,9 +20,6 @@ True|False	{ if(yytext[0] == 'T')
 			return BOOLEAN; }
 
 [ ]?==[ ]?			{ return EQUAL; }
-[ ]?!=[ ]?			{ return NOTEQUAL; }
-[ ]?<=[ ]?			{ return MEQUAL; }
-[ ]?>=[ ]?			{ return GEQUAL; }
 
 [ ]?if[ ]?			{ return IF; }
 [ ]?then[ ]?		{ return THEN; }

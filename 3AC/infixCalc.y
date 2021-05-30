@@ -1,44 +1,103 @@
 %{ 
 	#include <ctype.h> 
-	#include <stdlib.h>
 	#include <stdio.h>
+	#include <stdlib.h>
 	#include <string.h>
-	#define MAX_TMP 50
+
+	#define TMP 30
 	
-	//typedef enum { True, False } bool;
 
 	int yylex();
 	int yyparse();
 	void yyerror(char const *s);
+
+	FILE *fd, *program;
+	int count_tmp = TMP;
+	int tmp = TMP;
+	int count_par = 0;
 	
-	FILE *fd;
-	int var[26];
-	int tmp[MAX_TMP];
 
-	int freeTmp(){
-		int i;
+	int executeOp(int arg1, char op, int arg2){
+		count_tmp += 1;
+		//if (op_count == 0)
+		//	fprintf(fd, "t%d =", count_tmp-tmp) 
 
-		for (i=0; i<MAX_TMP; i++){
-			if (tmp[i] == 0)
-				return i;
-		}
+		if (arg1 >= tmp && arg2 >= tmp)
+			fprintf(fd, "t%d = t%d %c t%d;\n", count_tmp-tmp, arg1-tmp, op, arg2-tmp);
+		else if (arg1 >= tmp && arg2 < tmp)
+			fprintf(fd, "t%d = t%d %c %c;\n", count_tmp-tmp, arg1-tmp, op, arg2+'a');
+		else if (arg1 < tmp && arg2 >= tmp)
+			fprintf(fd, "t%d = %c %c t%d;\n", count_tmp-tmp, arg1+'a', op, arg2-tmp);
+		else
+			fprintf(fd, "t%d = %c %c %c;\n", count_tmp-tmp, arg1+'a', op, arg2+'a');
 
-		printf("\nERRORE: Variabili temporanee sature!\n");
-		exit(0);
+		return count_tmp;
 	}
 
-	int lastTmp(){
-		int i;
+	int executeComparison(int arg1, char* op, int arg2){
+		count_tmp += 1;
+		//if (op_count == 0)
+		//	fprintf(fd, "t%d =", count_tmp-tmp) 
 
-		for (i=MAX_TMP-1; i>=0; i--){
-			if (tmp[i] != 0)
-				return i;
-		}
+		if (arg1 >= tmp && arg2 >= tmp)
+			fprintf(fd, "t%d = t%d %s t%d;\n", count_tmp-tmp, arg1-tmp, op, arg2-tmp);
+		else if (arg1 >= tmp && arg2 < tmp)
+			fprintf(fd, "t%d = t%d %s %c;\n", count_tmp-tmp, arg1-tmp, op, arg2+'a');
+		else if (arg1 < tmp && arg2 >= tmp)
+			fprintf(fd, "t%d = %c %s t%d;\n", count_tmp-tmp, arg1+'a', op, arg2-tmp);
+		else
+			fprintf(fd, "t%d = %c %s %c;\n", count_tmp-tmp, arg1+'a', op, arg2+'a');
 
-		printf("\nERRORE: Non esiste nessuna variabile temporanea!\n");
-		exit(0);
+		return count_tmp;
 	}
 
+	void writePar(int stmt){		//1=then		0=else
+		if(stmt == 1){
+			program = fd;
+			fd = fopen("then.c", "a");
+			if (fd == NULL){
+				printf("Errore nell’apertura del file then!");
+				exit(0);
+			}
+			fprintf(fd, "\npar%d:\n", count_par);
+			count_par++;
+		}
+		else{
+			fprintf(fd,"printf(\"%%d\\n\",t%d);\n", count_tmp-tmp); 
+			fclose(fd);
+
+			fd = fopen("else.c", "a");
+			if (fd == NULL){
+				printf("Errore nell’apertura del file else!");
+				exit(0);
+			}
+			fprintf(fd, "\npar%d:\n", count_par);
+			count_par++;
+		}
+	}
+
+	void mergeFile(){
+		FILE* f_then = fopen("then.c", "r");
+		char buffer[50];
+		if(f_then == NULL){
+			printf("Errore nell’apertura in lettura del file then!");
+			exit(0);
+		}
+		while(fgets(buffer, sizeof(buffer), f_then))
+			fprintf(fd, "%s", buffer);
+		fclose(f_then);
+		remove("then.c");
+
+		FILE* f_else = fopen("else.c", "r");
+		if(f_else == NULL){
+			printf("Errore nell’apertura in lettura del file else!");
+			exit(0);
+		}
+		while(fgets(buffer, sizeof(buffer), f_else))
+			fprintf(fd, "%s", buffer);
+		fclose(f_else);
+		remove("else.c");
+	}
 
 	void main(){
 		fd = fopen("out.c", "w");
@@ -52,12 +111,10 @@
 		
 		yyparse();
 
+		mergeFile();
 		fprintf(fd, "\n}\n");
 		fclose(fd);
-		
 	}
-	
-	//{fprintf(fd, "(");}   {fprintf(fd, ")");}
 
 %}
 
@@ -65,14 +122,18 @@
 %token <number> INTEGER 
 %token <letter> LETTER
 %token <boolean> BOOLEAN
-%token <string> EQUAL
-%token <string> IF
-%token <string> THEN
-%token <string> ELSE
-%token <string> EXIT
+%token EQUAL NOTEQUAL MEQUAL GEQUAL
+%token IF
+%token THEN
+%token ELSE
+%token EXIT
 
+%left '+' '-'
+%left '*' '/' '%'
+%left '^'
+%left '(' ')'
 
-%type <number> expr term factor line
+%type <number> expr line
 %type <boolean> bexpr
 
 %union{
@@ -88,51 +149,40 @@ lines:lines line
 	 |line
 ;
 
-line:EXIT			{return 1;}
-	|expr'\n'	 						{ printf("= %d\n", $1); 
-										 fprintf(fd,"\nprintf(\"%%d\\n\",var);"); }
-	|LETTER '=' {fprintf(fd, "int %c = ", $1+'a'); } expr{fprintf(fd,";\n");}'\n'	{var[$1] = $4;}
-
-	|bexpr'\n'							{ if($1 == 1)
-											fprintf(fd,"\nprintf(\"True\\n\");");
-										else
-											fprintf(fd,"\nprintf(\"False\\n\");"); }
-	|IF bexpr THEN expr ELSE expr'\n'	{ if($2 == 1)
-											printf("= %d\n", $4);
-										else
-											printf("= %d\n", $6);}
+line:EXIT												{return 1;}
+	|expr'\n'	 										{fprintf(fd,"printf(\"%%d\\n\",t%d);\n", count_tmp-tmp); }
+	|LETTER '=' {fprintf(fd, "int %c = ", $1+'a'); }
+	expr{fprintf(fd,";\n");}'\n'						{}
+	|bexpr'\n'											{fprintf(fd,"printf(\"%%d\\n\",t%d);\n", count_tmp-tmp); }
+	|IF bexpr{fprintf(fd, "\nif ( t%d )\n\tgoto par%d;\n", count_tmp-tmp, count_par);
+		writePar(1);}
+	 THEN expr ELSE
+	 {fprintf(program, "else\n\tgoto par%d;\n", count_par);
+	 writePar(0);} expr'\n'	 { fprintf(fd,"printf(\"%%d\\n\",t%d);\n", count_tmp-tmp); 
+								fclose(fd);
+								fd = program;}
 ;
 
-bexpr: 	expr '<' '='{fprintf(fd, " <= ");} expr		{ $$ = $1 <= $5; }
-		|expr '>' '='{fprintf(fd, " >= ");} expr		{ $$ = $1 >= $5; }
-		|expr '<'{fprintf(fd, " < ");} expr			{ $$ = $1 < $4; }
-		|expr '>'{fprintf(fd, " > ");} expr			{ $$ = $1 > $4; }
-		|expr EQUAL{fprintf(fd, " == ");} expr		{ $$ = $1 == $4; }
-		|expr '!' '='{fprintf(fd, " != ");} expr		{ $$ = $1 != $5; }
-		|'(' bexpr {fprintf(fd, ")");}')'			{ $$ = $2; }
-		|BOOLEAN				{ $$ = $1;
-								if($1 == 1)
-									printf("True\n");
-								else
-									printf("False\n"); }
+bexpr: 	expr MEQUAL expr		{ $$ = executeComparison($1,"<=",$3); }
+		|expr GEQUAL expr		{ $$ = executeComparison($1,">=",$3); }
+		|expr '<' expr			{ $$ = executeComparison($1,"< ",$3); }
+		|expr '>' expr			{ $$ = executeComparison($1,"> ",$3); }
+		|expr EQUAL expr		{ $$ = executeComparison($1,"==",$3); }
+		|expr NOTEQUAL expr		{ $$ = executeComparison($1,"!=",$3); }
+		|'(' bexpr ')'			{ $$ = $2; }
+		|BOOLEAN				{ $$ = $1; }
 ;
 
 
-expr:expr '+'{fprintf(fd, " + ");} term 				{ $$ = $1 + $4; }
-    |expr '-'{fprintf(fd, " - ");} term 				{ $$ = $1 - $4; }
-	|term						{ $$ = $1;}
-;
-
-term:term '*'{fprintf(fd, " * ");} factor 			{ $$ = $1 * $4; }
-    |term '/'{fprintf(fd, " / ");} factor 			{ $$ = $1 / $4; }
-	|factor						{ $$ = $1;}
-;
-
-factor: '(' expr {fprintf(fd, ")");}')'				{ $$ = $2; }
-		|INTEGER				{ $$ = $1;
+expr:expr '+' expr 				{ $$ = executeOp($1,'+',$3); }
+    |expr '-' expr 				{ $$ = executeOp($1,'-',$3); }
+	|expr '*' expr 				{ $$ = executeOp($1,'*',$3); }
+    |expr '/' expr 				{ $$ = executeOp($1,'/',$3); }
+	|expr '%' expr 				{ $$ = executeOp($1,'%',$3); }
+	|'(' expr ')'				{ $$ = $2; }
+	|INTEGER					{ $$ = $1; 
 								fprintf(fd, "%d", $1);}
-		|LETTER					{ $$ = var[$1];
-								fprintf(fd, "%c", $1+'a');}
+	|LETTER						{ $$ = $1; }
 ;
 
 %%

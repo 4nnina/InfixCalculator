@@ -22,18 +22,14 @@
 %token <number> INTEGER 
 %token <letter> LETTER
 %token <boolean> BOOLEAN
-%token EQUAL NOTEQUAL MEQUAL GEQUAL
-%token IF
-%token THEN
-%token ELSE
-%token EXIT
+%token <string> EQUAL
+%token <string> IF
+%token <string> THEN
+%token <string> ELSE
+%token <string> EXIT
 
-%left '+' '-'
-%left '*' '/' '%'
-%left '^'
-%left '(' ')'
 
-%type <number> expr line
+%type <number> expr term factor fact line
 %type <boolean> bexpr
 
 %union{
@@ -62,29 +58,36 @@ line:EXIT								{return 1;}
 											printf("= %d\n", $6);}
 ;
 
-bexpr: 	expr MEQUAL expr		{ $$ = $1 <= $3; }
-		|expr GEQUAL expr		{ $$ = $1 >= $3; }
+bexpr: 	expr '<' '=' expr		{ $$ = $1 <= $4; }
+		|expr '>' '=' expr		{ $$ = $1 >= $4; }
 		|expr '<' expr			{ $$ = $1 < $3; }
 		|expr '>' expr			{ $$ = $1 > $3; }
 		|expr EQUAL expr		{ $$ = $1 == $3; }
-		|expr NOTEQUAL expr		{ $$ = $1 != $3; }
+		|expr '!' '=' expr		{ $$ = $1 != $4; }
 		|'(' bexpr ')'			{ $$ = $2; }
 		|BOOLEAN				{ $$ = $1; }
 ;
 
 
-expr:expr '+' expr 				{ $$ = $1 + $3; }
-    |expr '-' expr 				{ $$ = $1 - $3; }
-	|expr '*' expr 				{ $$ = $1 * $3; }
-    |expr '/' expr 				{ $$ = $1 / $3; }
-	|expr '%' expr 				{ $$ = $1 % $3; }
-	|'-' expr					{ $$ = $2; }
-	|expr '^' expr 				{ $$ = 1; 
+expr:expr '+' term 				{ $$ = $1 + $3; }
+    |expr '-' term 				{ $$ = $1 - $3; }
+	|term						{ $$ = $1; }
+;
+
+term:term '*' factor 			{ $$ = $1 * $3; }
+    |term '/' factor 			{ $$ = $1 / $3; }
+	|factor						{ $$ = $1; }
+;
+
+factor: factor '^' fact 		{ $$ = 1; 
                             	for(int i=0; i<$3; i++)
                                 	$$ = $$ * $1; }
-	|'(' expr ')'				{ $$ = $2; }
-	|INTEGER				{ $$ = $1; }
-	|LETTER					{ $$ = regs[$1]; }
+		|fact
+;
+
+fact: '(' expr ')'				{ $$ = $2; }
+		|INTEGER				{ $$ = $1; }
+		|LETTER					{ $$ = regs[$1]; }
 ;
 
 %%
