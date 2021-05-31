@@ -53,16 +53,14 @@ extern int yydebug;
     LETTER = 259,
     PRINTLETTER = 260,
     BOOLEAN = 261,
-    ASSIGNMENT = 262,
-    ASSIGNMENTLETT = 263,
-    EQUAL = 264,
-    NOTEQUAL = 265,
-    MEQUAL = 266,
-    GEQUAL = 267,
-    IF = 268,
-    THEN = 269,
-    ELSE = 270,
-    EXIT = 271
+    EQUAL = 262,
+    NOTEQUAL = 263,
+    MEQUAL = 264,
+    GEQUAL = 265,
+    IF = 266,
+    THEN = 267,
+    ELSE = 268,
+    EXIT = 269
   };
 #endif
 /* Tokens.  */
@@ -70,22 +68,20 @@ extern int yydebug;
 #define LETTER 259
 #define PRINTLETTER 260
 #define BOOLEAN 261
-#define ASSIGNMENT 262
-#define ASSIGNMENTLETT 263
-#define EQUAL 264
-#define NOTEQUAL 265
-#define MEQUAL 266
-#define GEQUAL 267
-#define IF 268
-#define THEN 269
-#define ELSE 270
-#define EXIT 271
+#define EQUAL 262
+#define NOTEQUAL 263
+#define MEQUAL 264
+#define GEQUAL 265
+#define IF 266
+#define THEN 267
+#define ELSE 268
+#define EXIT 269
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 168 "infixCalc.y"
+#line 166 "infixCalc.y"
 
 	int number;
 	char letter;
@@ -93,7 +89,7 @@ union YYSTYPE
 	char *str;
 	struct Prod produzione;
 
-#line 97 "y.tab.h"
+#line 93 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

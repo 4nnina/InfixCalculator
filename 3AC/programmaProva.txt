@@ -1,0 +1,9 @@
+a= 0
+b=9
+c=13-a*b
+if True then c else 79
+c==1
+d = 23
+if d <c then (a-b) else a+c*8/b
+exit
+

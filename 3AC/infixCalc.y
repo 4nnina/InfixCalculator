@@ -9,6 +9,8 @@
 	#define NUMBER 28 
 	#define ALPHA 26
 	
+	extern FILE *yyin;
+
 	int yylex();
 	int yyparse();
 	void yyerror(char const *s);
@@ -172,7 +174,6 @@
 %token <number> INTEGER 
 %token <letter> LETTER PRINTLETTER
 %token <boolean> BOOLEAN
-%token <str> ASSIGNMENT ASSIGNMENTLETT
 %token EQUAL NOTEQUAL MEQUAL GEQUAL
 %token IF THEN ELSE
 %token EXIT
@@ -194,33 +195,20 @@ lines:lines line
 
 line:EXIT												{return 1;}
 
-	|PRINTLETTER											{fprintf(fd, "printf(\"%%d\\n\", %c);\n",$1+'a');
-															printf("= %d\n", regs[$1]);}
+	|PRINTLETTER										{fprintf(fd, "printf(\"%%d\\n\", %c);\n",$1+'a');
+														printf("= %d\n", regs[$1]);}
 
 	|expr'\n'	 										{ printf("= %d\n", $1.num); 
 														fprintf(fd,"printf(\"%%d\\n\",t%d);\n", count_tmp-tmp); }
 
-	|ASSIGNMENT {for(int i=0; $1[i] != '\n';i++)
-					fprintf(fd, "%c", $1[i]);
-				fprintf(fd, ";\n");} 					{int numero=0;
-														for (int i=2; $1[i]!='\0'; i++)
-															if($1[i]>47 && $1[i]<58)		//48=0
-																numero = numero*10+($1[i]-48);
-														regs[$1[0]-'a'] = numero;
-														vars[$1[0]-'a'] = '*';}
-
-	|ASSIGNMENTLETT {for(int i=0; $1[i] != '\n';i++)
-						fprintf(fd, "%c", $1[i]);
-					fprintf(fd, ";\n");} 				{int lett;
-														for (int i=2; $1[i]!='\0'; i++)
-															if($1[i]>='a' && $1[i]<='z')
-																lett=$1[i]-'a';
-														regs[$1[0]-'a'] = regs[lett];
-														vars[$1[0]-'a'] = '*';}
-
 	|LETTER '=' expr '\n'								{ regs[$1] = $3.num;
 														 vars[$1] = '*';
-														 fprintf(fd,"%c = t%d;\n",$1+'a',count_tmp-tmp);}
+														 if ($3.id == NUMBER)
+															fprintf(fd,"%c = %d;\n",$1+'a',$3.num);
+														 else if($3.id <= ALPHA)
+														 	fprintf(fd,"%c = %c;\n",$1+'a',$3.id+'a');
+														 else
+														 	fprintf(fd,"%c = t%d;\n",$1+'a',count_tmp-tmp);}
 
 	|bexpr'\n'											{ if($1.num == 1)
 															printf("True\n");
@@ -286,14 +274,24 @@ void yyerror (char const *s) {
    fprintf(stderr, "%s\n", s);
 }
 
-void main(){
+void main(int argc, char** argv){
+	
+	if(argc > 1){
+        yyin = fopen(argv[1], "r");
+        if (yyin == NULL){
+			printf("Errore nell’apertura del file di input!");
+			exit(0);
+		}
+    }
+
+
 	fd = fopen("out.c", "w");
 
 	if (fd == NULL){
-		printf("Errore nell’apertura del file!");
+		printf("Errore nell’apertura del file di supporto!");
 		exit(0);
 	}
-		
+	
 	yyparse();
 
 	fprintf(fd, "\n}\n");

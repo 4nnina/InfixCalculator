@@ -84,9 +84,7 @@
 		yyparse();
 	}
 
-	//	|expr '=''=' expr		{ $$ = $1 == $4; }
-
-#line 90 "y.tab.c"
+#line 88 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -164,14 +162,14 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 39 "infixCalc.y"
+#line 37 "infixCalc.y"
 
 	int number;
 	char letter;
 	int boolean;
 	char *string;
 
-#line 175 "y.tab.c"
+#line 173 "y.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -547,9 +545,9 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    48,    48,    49,    52,    53,    54,    55,    59,    65,
-      66,    67,    68,    69,    70,    71,    72,    76,    77,    78,
-      79,    80,    81,    82,    85,    86,    87
+       0,    46,    46,    47,    50,    51,    52,    53,    57,    63,
+      64,    65,    66,    67,    68,    69,    70,    74,    75,    76,
+      77,    78,    79,    80,    83,    84,    85
 };
 #endif
 
@@ -1389,153 +1387,153 @@ yyreduce:
   switch (yyn)
     {
   case 4:
-#line 52 "infixCalc.y"
+#line 50 "infixCalc.y"
                                                                         {return 1;}
-#line 1395 "y.tab.c"
+#line 1393 "y.tab.c"
     break;
 
   case 5:
-#line 53 "infixCalc.y"
+#line 51 "infixCalc.y"
                                                                         { printf("= %d\n", (yyvsp[-1].number)); }
-#line 1401 "y.tab.c"
+#line 1399 "y.tab.c"
     break;
 
   case 6:
-#line 54 "infixCalc.y"
+#line 52 "infixCalc.y"
                                                         { regs[(yyvsp[-3].letter)]=(yyvsp[-1].number); }
-#line 1407 "y.tab.c"
+#line 1405 "y.tab.c"
     break;
 
   case 7:
-#line 55 "infixCalc.y"
+#line 53 "infixCalc.y"
                                                                         { if((yyvsp[-1].boolean) == 1)
 											printf("True\n");
 										else
 											printf("False\n"); }
-#line 1416 "y.tab.c"
+#line 1414 "y.tab.c"
     break;
 
   case 8:
-#line 59 "infixCalc.y"
+#line 57 "infixCalc.y"
                                                 { if((yyvsp[-5].boolean) == 1)
 											printf("= %d\n", (yyvsp[-3].number));
 										else
 											printf("= %d\n", (yyvsp[-1].number));}
-#line 1425 "y.tab.c"
+#line 1423 "y.tab.c"
     break;
 
   case 9:
-#line 65 "infixCalc.y"
+#line 63 "infixCalc.y"
                                         { (yyval.boolean) = (yyvsp[-2].number) <= (yyvsp[0].number); }
-#line 1431 "y.tab.c"
+#line 1429 "y.tab.c"
     break;
 
   case 10:
-#line 66 "infixCalc.y"
+#line 64 "infixCalc.y"
                                                 { (yyval.boolean) = (yyvsp[-2].number) >= (yyvsp[0].number); }
-#line 1437 "y.tab.c"
+#line 1435 "y.tab.c"
     break;
 
   case 11:
-#line 67 "infixCalc.y"
+#line 65 "infixCalc.y"
                                                 { (yyval.boolean) = (yyvsp[-2].number) < (yyvsp[0].number); }
-#line 1443 "y.tab.c"
+#line 1441 "y.tab.c"
     break;
 
   case 12:
-#line 68 "infixCalc.y"
+#line 66 "infixCalc.y"
                                                 { (yyval.boolean) = (yyvsp[-2].number) > (yyvsp[0].number); }
-#line 1449 "y.tab.c"
+#line 1447 "y.tab.c"
     break;
 
   case 13:
-#line 69 "infixCalc.y"
+#line 67 "infixCalc.y"
                                                 { (yyval.boolean) = (yyvsp[-2].number) == (yyvsp[0].number); }
-#line 1455 "y.tab.c"
+#line 1453 "y.tab.c"
     break;
 
   case 14:
-#line 70 "infixCalc.y"
+#line 68 "infixCalc.y"
                                                 { (yyval.boolean) = (yyvsp[-2].number) != (yyvsp[0].number); }
-#line 1461 "y.tab.c"
+#line 1459 "y.tab.c"
     break;
 
   case 15:
-#line 71 "infixCalc.y"
+#line 69 "infixCalc.y"
                                                 { (yyval.boolean) = (yyvsp[-1].boolean); }
-#line 1467 "y.tab.c"
+#line 1465 "y.tab.c"
     break;
 
   case 16:
-#line 72 "infixCalc.y"
+#line 70 "infixCalc.y"
                                                         { (yyval.boolean) = (yyvsp[0].boolean); }
-#line 1473 "y.tab.c"
+#line 1471 "y.tab.c"
     break;
 
   case 17:
-#line 76 "infixCalc.y"
+#line 74 "infixCalc.y"
                                                 { (yyval.number) = (yyvsp[-2].number) + (yyvsp[0].number); }
-#line 1479 "y.tab.c"
+#line 1477 "y.tab.c"
     break;
 
   case 18:
-#line 77 "infixCalc.y"
+#line 75 "infixCalc.y"
                                                 { (yyval.number) = (yyvsp[-2].number) - (yyvsp[0].number); }
-#line 1485 "y.tab.c"
+#line 1483 "y.tab.c"
     break;
 
   case 19:
-#line 78 "infixCalc.y"
+#line 76 "infixCalc.y"
                                                 { (yyval.number) = (yyvsp[-2].number) * (yyvsp[0].number); }
-#line 1491 "y.tab.c"
+#line 1489 "y.tab.c"
     break;
 
   case 20:
-#line 79 "infixCalc.y"
+#line 77 "infixCalc.y"
                                                 { (yyval.number) = (yyvsp[-2].number) / (yyvsp[0].number); }
-#line 1497 "y.tab.c"
+#line 1495 "y.tab.c"
     break;
 
   case 21:
-#line 80 "infixCalc.y"
+#line 78 "infixCalc.y"
                                                 { (yyval.number) = (yyvsp[-2].number) % (yyvsp[0].number); }
-#line 1503 "y.tab.c"
+#line 1501 "y.tab.c"
     break;
 
   case 22:
-#line 81 "infixCalc.y"
+#line 79 "infixCalc.y"
                                                         { (yyval.number) = (yyvsp[0].number); }
-#line 1509 "y.tab.c"
+#line 1507 "y.tab.c"
     break;
 
   case 23:
-#line 82 "infixCalc.y"
+#line 80 "infixCalc.y"
                                                 { (yyval.number) = 1; 
                             	for(int i=0; i<(yyvsp[0].number); i++)
                                 	(yyval.number) = (yyval.number) * (yyvsp[-2].number); }
-#line 1517 "y.tab.c"
+#line 1515 "y.tab.c"
     break;
 
   case 24:
-#line 85 "infixCalc.y"
+#line 83 "infixCalc.y"
                                                 { (yyval.number) = (yyvsp[-1].number); }
-#line 1523 "y.tab.c"
+#line 1521 "y.tab.c"
     break;
 
   case 25:
-#line 86 "infixCalc.y"
-                                                { (yyval.number) = (yyvsp[0].number); }
-#line 1529 "y.tab.c"
+#line 84 "infixCalc.y"
+                                                        { (yyval.number) = (yyvsp[0].number); }
+#line 1527 "y.tab.c"
     break;
 
   case 26:
-#line 87 "infixCalc.y"
-                                                { (yyval.number) = regs[(yyvsp[0].letter)]; }
-#line 1535 "y.tab.c"
+#line 85 "infixCalc.y"
+                                                        { (yyval.number) = regs[(yyvsp[0].letter)]; }
+#line 1533 "y.tab.c"
     break;
 
 
-#line 1539 "y.tab.c"
+#line 1537 "y.tab.c"
 
       default: break;
     }
@@ -1767,7 +1765,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 90 "infixCalc.y"
+#line 88 "infixCalc.y"
 
 
 void yyerror (char const *s) {
