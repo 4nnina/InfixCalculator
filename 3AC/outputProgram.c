@@ -2,37 +2,45 @@
 #include <stdlib.h>
 
 void main(){
-int t1, t2, t3, t4, t5, t6, a, b, c, d, f, t7;
+int t1, t2, t3, t4, t5, t6, a, b, c, t7;
 
- a=89;
-b=76;
-t1 = a * b;
-t2 = t1 / 1000;
+ a=8;
+b=12;
+t1 = b * 25;
+t2 = a - t1;
 c = t2;
-t3 = c - 5;
-t4 = t3 <= 1;
+t3 = c <= 20;
 
-if ( t4 )
+if ( t3 )
 	goto par0;
 else
 	goto par1;
 
 par0:
-
-}
-
-par0:
-t5 = c - 1;
-printf("%d\n",t5);
+printf("%d\n",c);
 goto end1;
 
 par1:
-t6 = c + 1;
-printf("%d\n",t6);
+printf("%d\n", 12);
 
 end1: ;
-d=c;
-t7 = d + c;
-f = t7;
+t4 = 0;
+
+if ( t4 )
+	goto par2;
+else
+	goto par3;
+
+par2:
+t5 = a - b;
+t6 = t5 - c;
+printf("%d\n",t6);
+goto end3;
+
+par3:
+t7 = a * 7;
+printf("%d\n",t7);
+
+end3: ;
 
 }

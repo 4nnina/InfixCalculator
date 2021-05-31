@@ -24,8 +24,6 @@
 	
 	int executeOp(Prod arg1, char op, Prod arg2){
 		count_tmp += 1;
-		//if (op_count == 0)
-		//	fprintf(fd, "t%d =", count_tmp-tmp) 
 
 		if (arg1.id >= tmp && arg2.id >= tmp)
 			fprintf(fd, "t%d = t%d %c t%d;\n", count_tmp-tmp, arg1.id-tmp, op, arg2.id-tmp);
@@ -60,9 +58,7 @@
 	}
 
 	int executeComparison(Prod arg1, char* op, Prod arg2){
-		count_tmp += 1;
-		//if (op_count == 0)
-		//	fprintf(fd, "t%d =", count_tmp-tmp) 
+		count_tmp += 1; 
 
 		if (arg1.id >= tmp && arg2.id >= tmp)
 			fprintf(fd, "t%d = t%d %s t%d;\n", count_tmp-tmp, arg1.id-tmp, op, arg2.id-tmp);
@@ -96,7 +92,7 @@
 		return count_tmp;
 	}
 
-	void writePar(int stmt){		//1=then		0=else
+	void writePar(int stmt, Prod exprthen){		//1=then		0=else
 		if(stmt == 1){
 			program = fd;
 			fd = fopen("then.c", "a");
@@ -108,7 +104,13 @@
 			count_par++;
 		}
 		else{
-			fprintf(fd,"printf(\"%%d\\n\",t%d);\n", count_tmp-tmp); 
+			if(exprthen.id == NUMBER)
+				fprintf(fd,"printf(\"%%d\\n\", %d);\n", exprthen.num); 
+			else if(exprthen.id <=26)
+				fprintf(fd,"printf(\"%%d\\n\",%c);\n", exprthen.id+'a');
+			else
+				fprintf(fd,"printf(\"%%d\\n\",t%d);\n", count_tmp - tmp);
+
 			fprintf(fd, "goto end%d;\n", count_par);
 			fclose(fd);
 
@@ -122,8 +124,14 @@
 		}
 	}
 
-	void mergeFile(){
-		fprintf(fd,"printf(\"%%d\\n\",t%d);\n", count_tmp-tmp); 
+	void mergeFile(Prod exprelse){
+		if(exprelse.id == NUMBER)
+			fprintf(fd,"printf(\"%%d\\n\", %d);\n", exprelse.num); 
+		else if(exprelse.id <=26)
+			fprintf(fd,"printf(\"%%d\\n\",%c);\n", exprelse.id+'a');
+		else
+			fprintf(fd,"printf(\"%%d\\n\",t%d);\n", count_tmp - tmp);
+			
 		fprintf(fd, "\nend%d: ;\n", count_par-1);
 		fclose(fd);
 
@@ -222,15 +230,15 @@ line:EXIT												{return 1;}
 
 	|IF bexpr 
 		{fprintf(fd, "\nif ( t%d )\n\tgoto par%d;\n", count_tmp-tmp, count_par);
-		writePar(1);}
+		writePar(1, $2);}
 	THEN expr ELSE 
 	 	{fprintf(program, "else\n\tgoto par%d;\n", count_par);
-		writePar(0);} 
+		writePar(0, $5);} 
 	expr'\n'											{ if($2.num == 1)
 															printf("= %d\n", $5.num);
 														else
 															printf("= %d\n", $8.num);
-														mergeFile();}
+														mergeFile($8);}
 ;
 
 bexpr: 	expr MEQUAL expr		{$$.num = $1.num <= $3.num; 
@@ -248,7 +256,9 @@ bexpr: 	expr MEQUAL expr		{$$.num = $1.num <= $3.num;
 		|'(' bexpr ')'			{$$.num = $2.num; 
 								 $$.id = $2.id; }
 		|BOOLEAN				{$$.num = $1; 
-								 $$.id = NUMBER; }
+								 $$.id = NUMBER; 
+								 count_tmp += 1;
+								 fprintf(fd,"t%d = %d;\n", count_tmp-tmp, $1);}
 ;
 
 
@@ -265,9 +275,8 @@ expr:expr '+' expr 				{$$.num = $1.num + $3.num;
 	|'(' expr ')'				{$$.num = $2.num; 
 								 $$.id = $2.id; }
 	|INTEGER					{$$.num = $1; 
-								 $$.id = NUMBER; 
-								}
-	|LETTER						{ $$.id = $1; 
+								 $$.id = NUMBER;}
+	|LETTER						{$$.id = $1; 
 								 $$.num = regs[$1];}
 ;
 

@@ -165,7 +165,7 @@
 		return count_tmp;
 	}
 
-	void writePar(int stmt){		//1=then		0=else
+	void writePar(int stmt, Prod exprthen){		//1=then		0=else
 		if(stmt == 1){
 			program = fd;
 			fd = fopen("then.c", "a");
@@ -177,7 +177,13 @@
 			count_par++;
 		}
 		else{
-			fprintf(fd,"printf(\"%%d\\n\",t%d);\n", count_tmp-tmp); 
+			if(exprthen.id == NUMBER)
+				fprintf(fd,"printf(\"%%d\\n\", %d);\n", exprthen.num); 
+			else if(exprthen.id <=26)
+				fprintf(fd,"printf(\"%%d\\n\",%c);\n", exprthen.id+'a');
+			else
+				fprintf(fd,"printf(\"%%d\\n\",t%d);\n", count_tmp - tmp);
+
 			fprintf(fd, "goto end%d;\n", count_par);
 			fclose(fd);
 
@@ -191,8 +197,14 @@
 		}
 	}
 
-	void mergeFile(){
-		fprintf(fd,"printf(\"%%d\\n\",t%d);\n", count_tmp-tmp); 
+	void mergeFile(Prod exprelse){
+		if(exprelse.id == NUMBER)
+			fprintf(fd,"printf(\"%%d\\n\", %d);\n", exprelse.num); 
+		else if(exprelse.id <=26)
+			fprintf(fd,"printf(\"%%d\\n\",%c);\n", exprelse.id+'a');
+		else
+			fprintf(fd,"printf(\"%%d\\n\",t%d);\n", count_tmp - tmp);
+			
 		fprintf(fd, "\nend%d: ;\n", count_par-1);
 		fclose(fd);
 
@@ -221,7 +233,7 @@
 	}
 
 
-#line 225 "y.tab.c"
+#line 237 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -305,7 +317,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 156 "infixCalc.y"
+#line 168 "infixCalc.y"
 
 	int number;
 	char letter;
@@ -313,7 +325,7 @@ union YYSTYPE
 	char *str;
 	struct Prod produzione;
 
-#line 317 "y.tab.c"
+#line 329 "y.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -690,10 +702,10 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   183,   183,   184,   187,   189,   192,   195,   195,   204,
-     204,   213,   217,   224,   227,   223,   236,   238,   240,   242,
-     244,   246,   248,   250,   255,   257,   259,   261,   263,   265,
-     267,   270
+       0,   195,   195,   196,   199,   201,   204,   207,   207,   216,
+     216,   225,   229,   236,   239,   235,   248,   250,   252,   254,
+     256,   258,   260,   262,   269,   271,   273,   275,   277,   279,
+     281,   283
 };
 #endif
 
@@ -1537,220 +1549,221 @@ yyreduce:
   switch (yyn)
     {
   case 4:
-#line 187 "infixCalc.y"
+#line 199 "infixCalc.y"
                                                                                                         {return 1;}
-#line 1543 "y.tab.c"
+#line 1555 "y.tab.c"
     break;
 
   case 5:
-#line 189 "infixCalc.y"
+#line 201 "infixCalc.y"
                                                                                                         {fprintf(fd, "printf(\"%%d\\n\", %c);\n",(yyvsp[0].letter)+'a');
 															printf("= %d\n", regs[(yyvsp[0].letter)]);}
-#line 1550 "y.tab.c"
+#line 1562 "y.tab.c"
     break;
 
   case 6:
-#line 192 "infixCalc.y"
+#line 204 "infixCalc.y"
                                                                                                         { printf("= %d\n", (yyvsp[-1].produzione).num); 
 														fprintf(fd,"printf(\"%%d\\n\",t%d);\n", count_tmp-tmp); }
-#line 1557 "y.tab.c"
+#line 1569 "y.tab.c"
     break;
 
   case 7:
-#line 195 "infixCalc.y"
+#line 207 "infixCalc.y"
                     {for(int i=0; (yyvsp[0].str)[i] != '\n';i++)
 					fprintf(fd, "%c", (yyvsp[0].str)[i]);
 				fprintf(fd, ";\n");}
-#line 1565 "y.tab.c"
+#line 1577 "y.tab.c"
     break;
 
   case 8:
-#line 197 "infixCalc.y"
+#line 209 "infixCalc.y"
                                                                                         {int numero=0;
 														for (int i=2; (yyvsp[-1].str)[i]!='\0'; i++)
 															if((yyvsp[-1].str)[i]>47 && (yyvsp[-1].str)[i]<58)		//48=0
 																numero = numero*10+((yyvsp[-1].str)[i]-48);
 														regs[(yyvsp[-1].str)[0]-'a'] = numero;
 														vars[(yyvsp[-1].str)[0]-'a'] = '*';}
-#line 1576 "y.tab.c"
+#line 1588 "y.tab.c"
     break;
 
   case 9:
-#line 204 "infixCalc.y"
+#line 216 "infixCalc.y"
                         {for(int i=0; (yyvsp[0].str)[i] != '\n';i++)
 						fprintf(fd, "%c", (yyvsp[0].str)[i]);
 					fprintf(fd, ";\n");}
-#line 1584 "y.tab.c"
+#line 1596 "y.tab.c"
     break;
 
   case 10:
-#line 206 "infixCalc.y"
+#line 218 "infixCalc.y"
                                                                                         {int lett;
 														for (int i=2; (yyvsp[-1].str)[i]!='\0'; i++)
 															if((yyvsp[-1].str)[i]>='a' && (yyvsp[-1].str)[i]<='z')
 																lett=(yyvsp[-1].str)[i]-'a';
 														regs[(yyvsp[-1].str)[0]-'a'] = regs[lett];
 														vars[(yyvsp[-1].str)[0]-'a'] = '*';}
-#line 1595 "y.tab.c"
+#line 1607 "y.tab.c"
     break;
 
   case 11:
-#line 213 "infixCalc.y"
+#line 225 "infixCalc.y"
                                                                                         { regs[(yyvsp[-3].letter)] = (yyvsp[-1].produzione).num;
 														 vars[(yyvsp[-3].letter)] = '*';
 														 fprintf(fd,"%c = t%d;\n",(yyvsp[-3].letter)+'a',count_tmp-tmp);}
-#line 1603 "y.tab.c"
+#line 1615 "y.tab.c"
     break;
 
   case 12:
-#line 217 "infixCalc.y"
+#line 229 "infixCalc.y"
                                                                                                         { if((yyvsp[-1].produzione).num == 1)
 															printf("True\n");
 														else
 															printf("False\n"); 
 														fprintf(fd,"printf(\"%%d\\n\",t%d);\n", count_tmp-tmp); }
-#line 1613 "y.tab.c"
+#line 1625 "y.tab.c"
     break;
 
   case 13:
-#line 224 "infixCalc.y"
+#line 236 "infixCalc.y"
                 {fprintf(fd, "\nif ( t%d )\n\tgoto par%d;\n", count_tmp-tmp, count_par);
-		writePar(1);}
-#line 1620 "y.tab.c"
+		writePar(1, (yyvsp[0].produzione));}
+#line 1632 "y.tab.c"
     break;
 
   case 14:
-#line 227 "infixCalc.y"
+#line 239 "infixCalc.y"
                 {fprintf(program, "else\n\tgoto par%d;\n", count_par);
-		writePar(0);}
-#line 1627 "y.tab.c"
+		writePar(0, (yyvsp[-1].produzione));}
+#line 1639 "y.tab.c"
     break;
 
   case 15:
-#line 229 "infixCalc.y"
+#line 241 "infixCalc.y"
                                                                                                         { if((yyvsp[-7].produzione).num == 1)
 															printf("= %d\n", (yyvsp[-4].produzione).num);
 														else
 															printf("= %d\n", (yyvsp[-1].produzione).num);
-														mergeFile();}
-#line 1637 "y.tab.c"
+														mergeFile((yyvsp[-1].produzione));}
+#line 1649 "y.tab.c"
     break;
 
   case 16:
-#line 236 "infixCalc.y"
+#line 248 "infixCalc.y"
                                         {(yyval.produzione).num = (yyvsp[-2].produzione).num <= (yyvsp[0].produzione).num; 
 								 (yyval.produzione).id = executeComparison((yyvsp[-2].produzione),"<=",(yyvsp[0].produzione)); }
-#line 1644 "y.tab.c"
+#line 1656 "y.tab.c"
     break;
 
   case 17:
-#line 238 "infixCalc.y"
+#line 250 "infixCalc.y"
                                                 {(yyval.produzione).num = (yyvsp[-2].produzione).num >= (yyvsp[0].produzione).num; 
 								 (yyval.produzione).id = executeComparison((yyvsp[-2].produzione),">=",(yyvsp[0].produzione)); }
-#line 1651 "y.tab.c"
+#line 1663 "y.tab.c"
     break;
 
   case 18:
-#line 240 "infixCalc.y"
+#line 252 "infixCalc.y"
                                                 {(yyval.produzione).num = (yyvsp[-2].produzione).num < (yyvsp[0].produzione).num; 
 								 (yyval.produzione).id = executeComparison((yyvsp[-2].produzione),"< ",(yyvsp[0].produzione)); }
-#line 1658 "y.tab.c"
+#line 1670 "y.tab.c"
     break;
 
   case 19:
-#line 242 "infixCalc.y"
+#line 254 "infixCalc.y"
                                                 {(yyval.produzione).num = (yyvsp[-2].produzione).num > (yyvsp[0].produzione).num; 
 								 (yyval.produzione).id = executeComparison((yyvsp[-2].produzione),"> ",(yyvsp[0].produzione)); }
-#line 1665 "y.tab.c"
+#line 1677 "y.tab.c"
     break;
 
   case 20:
-#line 244 "infixCalc.y"
+#line 256 "infixCalc.y"
                                                 {(yyval.produzione).num = (yyvsp[-2].produzione).num == (yyvsp[0].produzione).num; 
 								 (yyval.produzione).id = executeComparison((yyvsp[-2].produzione),"==",(yyvsp[0].produzione)); }
-#line 1672 "y.tab.c"
+#line 1684 "y.tab.c"
     break;
 
   case 21:
-#line 246 "infixCalc.y"
+#line 258 "infixCalc.y"
                                                 {(yyval.produzione).num = (yyvsp[-2].produzione).num != (yyvsp[0].produzione).num; 
 								 (yyval.produzione).id = executeComparison((yyvsp[-2].produzione),"!=",(yyvsp[0].produzione)); }
-#line 1679 "y.tab.c"
+#line 1691 "y.tab.c"
     break;
 
   case 22:
-#line 248 "infixCalc.y"
+#line 260 "infixCalc.y"
                                                 {(yyval.produzione).num = (yyvsp[-1].produzione).num; 
 								 (yyval.produzione).id = (yyvsp[-1].produzione).id; }
-#line 1686 "y.tab.c"
+#line 1698 "y.tab.c"
     break;
 
   case 23:
-#line 250 "infixCalc.y"
+#line 262 "infixCalc.y"
                                                         {(yyval.produzione).num = (yyvsp[0].boolean); 
-								 (yyval.produzione).id = NUMBER; }
-#line 1693 "y.tab.c"
-    break;
-
-  case 24:
-#line 255 "infixCalc.y"
-                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num + (yyvsp[0].produzione).num; 
-								 (yyval.produzione).id = executeOp((yyvsp[-2].produzione),'+',(yyvsp[0].produzione)); }
-#line 1700 "y.tab.c"
-    break;
-
-  case 25:
-#line 257 "infixCalc.y"
-                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num - (yyvsp[0].produzione).num; 
-								 (yyval.produzione).id = executeOp((yyvsp[-2].produzione),'-',(yyvsp[0].produzione)); }
+								 (yyval.produzione).id = NUMBER; 
+								 count_tmp += 1;
+								 fprintf(fd,"t%d = %d;\n", count_tmp-tmp, (yyvsp[0].boolean));}
 #line 1707 "y.tab.c"
     break;
 
-  case 26:
-#line 259 "infixCalc.y"
-                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num * (yyvsp[0].produzione).num; 
-								 (yyval.produzione).id = executeOp((yyvsp[-2].produzione),'*',(yyvsp[0].produzione)); }
+  case 24:
+#line 269 "infixCalc.y"
+                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num + (yyvsp[0].produzione).num; 
+								 (yyval.produzione).id = executeOp((yyvsp[-2].produzione),'+',(yyvsp[0].produzione)); }
 #line 1714 "y.tab.c"
     break;
 
-  case 27:
-#line 261 "infixCalc.y"
-                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num / (yyvsp[0].produzione).num; 
-								 (yyval.produzione).id = executeOp((yyvsp[-2].produzione),'/',(yyvsp[0].produzione)); }
+  case 25:
+#line 271 "infixCalc.y"
+                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num - (yyvsp[0].produzione).num; 
+								 (yyval.produzione).id = executeOp((yyvsp[-2].produzione),'-',(yyvsp[0].produzione)); }
 #line 1721 "y.tab.c"
     break;
 
-  case 28:
-#line 263 "infixCalc.y"
-                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num % (yyvsp[0].produzione).num; 
-								 (yyval.produzione).id = executeOp((yyvsp[-2].produzione),'%',(yyvsp[0].produzione)); }
+  case 26:
+#line 273 "infixCalc.y"
+                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num * (yyvsp[0].produzione).num; 
+								 (yyval.produzione).id = executeOp((yyvsp[-2].produzione),'*',(yyvsp[0].produzione)); }
 #line 1728 "y.tab.c"
     break;
 
-  case 29:
-#line 265 "infixCalc.y"
-                                                {(yyval.produzione).num = (yyvsp[-1].produzione).num; 
-								 (yyval.produzione).id = (yyvsp[-1].produzione).id; }
+  case 27:
+#line 275 "infixCalc.y"
+                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num / (yyvsp[0].produzione).num; 
+								 (yyval.produzione).id = executeOp((yyvsp[-2].produzione),'/',(yyvsp[0].produzione)); }
 #line 1735 "y.tab.c"
     break;
 
+  case 28:
+#line 277 "infixCalc.y"
+                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num % (yyvsp[0].produzione).num; 
+								 (yyval.produzione).id = executeOp((yyvsp[-2].produzione),'%',(yyvsp[0].produzione)); }
+#line 1742 "y.tab.c"
+    break;
+
+  case 29:
+#line 279 "infixCalc.y"
+                                                {(yyval.produzione).num = (yyvsp[-1].produzione).num; 
+								 (yyval.produzione).id = (yyvsp[-1].produzione).id; }
+#line 1749 "y.tab.c"
+    break;
+
   case 30:
-#line 267 "infixCalc.y"
+#line 281 "infixCalc.y"
                                                         {(yyval.produzione).num = (yyvsp[0].number); 
-								 (yyval.produzione).id = NUMBER; 
-								}
-#line 1743 "y.tab.c"
+								 (yyval.produzione).id = NUMBER;}
+#line 1756 "y.tab.c"
     break;
 
   case 31:
-#line 270 "infixCalc.y"
+#line 283 "infixCalc.y"
                                                         { (yyval.produzione).id = (yyvsp[0].letter); 
 								 (yyval.produzione).num = regs[(yyvsp[0].letter)];}
-#line 1750 "y.tab.c"
+#line 1763 "y.tab.c"
     break;
 
 
-#line 1754 "y.tab.c"
+#line 1767 "y.tab.c"
 
       default: break;
     }
@@ -1982,7 +1995,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 274 "infixCalc.y"
+#line 287 "infixCalc.y"
 
 
 void yyerror (char const *s) {

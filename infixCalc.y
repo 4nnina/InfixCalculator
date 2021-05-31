@@ -14,8 +14,6 @@
 	void main(){
 		yyparse();
 	}
-
-	//	|expr '=''=' expr		{ $$ = $1 == $4; }
 %}
 
 
@@ -83,8 +81,8 @@ expr:expr '+' expr 				{ $$ = $1 + $3; }
                             	for(int i=0; i<$3; i++)
                                 	$$ = $$ * $1; }
 	|'(' expr ')'				{ $$ = $2; }
-	|INTEGER				{ $$ = $1; }
-	|LETTER					{ $$ = regs[$1]; }
+	|INTEGER					{ $$ = $1; }
+	|LETTER						{ $$ = regs[$1]; }
 ;
 
 %%

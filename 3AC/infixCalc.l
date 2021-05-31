@@ -12,42 +12,42 @@ int c;
 
 %%
 
-exit[\n]	{return EXIT;}
+exit[\n]					{return EXIT;}
 
-^[a-z][\n]	{c = yytext[0];
-			yylval.letter = c - 'a';
-			return PRINTLETTER;}
+^[a-z][\n]					{c = yytext[0];
+							yylval.letter = c - 'a';
+							return PRINTLETTER;}
 
-[a-z][ ]?=[ ]?[0-9]+[\n] {yylval.str=yytext;
-			 		return ASSIGNMENT;}
-[a-z][ ]?=[ ]?[a-z][\n] {yylval.str=yytext;
-			 		return ASSIGNMENTLETT;}
+[a-z][ ]?=[ ]?[0-9]+[\n] 	{yylval.str=yytext;
+			 				return ASSIGNMENT;}
+[a-z][ ]?=[ ]?[a-z][\n]		{yylval.str=yytext;
+			 				return ASSIGNMENTLETT;}
 					 
-[0-9]+		{yylval.number = atoi(yytext);
-			return INTEGER;}
+[0-9]+						{yylval.number = atoi(yytext);
+							return INTEGER;}
 
-True|False	{ if(yytext[0] == 'T')	
-				yylval.boolean = 1;
-			else
-				yylval.boolean = 0;
-			return BOOLEAN; }
+True|False					{if(yytext[0] == 'T')	
+								yylval.boolean = 1;
+							else
+								yylval.boolean = 0;
+							return BOOLEAN; }
 
-[ ]?==[ ]?			{ return EQUAL; }
-[ ]?!=[ ]?			{ return NOTEQUAL; }
-[ ]?<=[ ]?			{ return MEQUAL; }
-[ ]?>=[ ]?			{ return GEQUAL; }
+[ ]?==[ ]?					{ return EQUAL; }
+[ ]?!=[ ]?					{ return NOTEQUAL; }
+[ ]?<=[ ]?					{ return MEQUAL; }
+[ ]?>=[ ]?					{ return GEQUAL; }
 
-[ ]?if[ ]?			{ return IF; }
-[ ]?then[ ]?		{ return THEN; }
-[ ]?else[ ]?		{ return ELSE; }
+[ ]?if[ ]?					{ return IF; }
+[ ]?then[ ]?				{ return THEN; }
+[ ]?else[ ]?				{ return ELSE; }
 
-[a-z]		{c = yytext[0];
-			yylval.letter = c - 'a';
-			return LETTER;}
+[a-z]						{c = yytext[0];
+							yylval.letter = c - 'a';
+							return LETTER;}
 [ \t\r]
 
-\n			return '\n';
-.			return yytext[0];
+\n							return '\n';
+.							return yytext[0];
 
 %%
 
