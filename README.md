@@ -15,13 +15,13 @@ lex infixCalc.l
 gcc y.tab.c lex.yy.c -lfl
 ```
 
-Form Linux shell:
+From Linux shell:
 
 ```bash
 ./a.out [inputFile]
 ```
 
-from Windows prompt:
+From Windows prompt:
 
 ```
 ./a.exe [inputFile]
