@@ -180,7 +180,6 @@
 
 %left '+' '-'
 %left '*' '/' '%'
-%left '^'
 %left '(' ')'
 
 %type <produzione> expr bexpr line
@@ -195,11 +194,19 @@ lines:lines line
 
 line:EXIT												{return 1;}
 
-	|PRINTLETTER										{fprintf(fd, "printf(\"%%d\\n\", %c);\n",$1+'a');
-														printf("= %d\n", regs[$1]);}
+	|PRINTLETTER										{if(vars[$1] == '*'){
+															fprintf(fd, "printf(\"%%d\\n\", %c);\n",$1+'a');
+															printf("= %d\n", regs[$1]);
+														 }
+								 						 else
+									 						printf("ERRORE: variabile %c non dichiarata\n",$1+'a');
+														}
 
-	|expr'\n'	 										{ printf("= %d\n", $1.num); 
-														fprintf(fd,"printf(\"%%d\\n\",t%d);\n", count_tmp-tmp); }
+	|expr'\n'	 										{if($1.id == NUMBER){
+															printf("= %d\n", $1.num); 
+															fprintf(fd,"printf(\"%%d\\n\",t%d);\n", count_tmp-tmp); 
+														 }
+														}
 
 	|LETTER '=' expr '\n'								{ regs[$1] = $3.num;
 														 vars[$1] = '*';
@@ -240,7 +247,7 @@ bexpr: 	expr MEQUAL expr		{$$.num = $1.num <= $3.num;
 		|expr EQUAL expr		{$$.num = $1.num == $3.num; 
 								 $$.id = executeComparison($1,"==",$3); }
 		|expr NOTEQUAL expr		{$$.num = $1.num != $3.num; 
-								 $$.id = executeComparison($1,"!=",$3); }
+								 $$.id = executeComparison($1,"!=",$3); }	
 		|'(' bexpr ')'			{$$.num = $2.num; 
 								 $$.id = $2.id; }
 		|BOOLEAN				{$$.num = $1; 
@@ -259,13 +266,20 @@ expr:expr '+' expr 				{$$.num = $1.num + $3.num;
     |expr '/' expr 				{$$.num = $1.num / $3.num; 
 								 $$.id = executeOp($1,'/',$3); }
 	|expr '%' expr 				{$$.num = $1.num % $3.num; 
-								 $$.id = executeOp($1,'%',$3); }
+								 $$.id = executeOp($1,'%',$3); }					 
+	|'-' expr					{$$.num = -$2.num;
+								 $$.id = $2.id;}
 	|'(' expr ')'				{$$.num = $2.num; 
 								 $$.id = $2.id; }
 	|INTEGER					{$$.num = $1; 
 								 $$.id = NUMBER;}
-	|LETTER						{$$.id = $1; 
-								 $$.num = regs[$1];}
+	|LETTER						{if(vars[$1] == '*'){
+									$$.id = $1; 
+									$$.num = regs[$1];
+								 }
+								 else
+									printf("ERRORE: variabile %c non dichiarata\n", $1+'a');
+								}
 ;
 
 %%

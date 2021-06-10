@@ -1,12 +1,12 @@
 
 %{  
-#include <stdlib.h>
-#include <string.h>
-#include "struct.h"
-#include "y.tab.h"
+	#include <stdlib.h>
+	#include <string.h>
+	#include "struct.h"
+	#include "y.tab.h"
 
-//extern int yylval
-int c;
+	//extern int yylval
+	int c;
 
 %}
 
@@ -18,7 +18,7 @@ exit				{return EXIT;}
 					yylval.letter = c - 'a';
 					return PRINTLETTER;}
 				 
-[-]?[0-9]+			{yylval.number = atoi(yytext);
+[0-9]+				{yylval.number = atoi(yytext);
 					return INTEGER;}
 
 True|False			{if(yytext[0] == 'T')	

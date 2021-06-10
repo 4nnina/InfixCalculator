@@ -636,18 +636,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  18
+#define YYFINAL  21
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   152
+#define YYLAST   155
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  27
+#define YYNTOKENS  26
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  7
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  27
+#define YYNRULES  28
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  57
+#define YYNSTATES  59
 
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   269
@@ -663,15 +663,15 @@ union yyalloc
 static const yytype_int8 yytranslate[] =
 {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-      23,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+      22,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,    19,     2,     2,
-      21,    22,    17,    15,     2,    16,     2,    18,     2,     2,
+      20,    21,    17,    15,     2,    16,     2,    18,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-      25,    24,    26,     2,     2,     2,     2,     2,     2,     2,
+      24,    23,    25,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,    20,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -695,9 +695,9 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   192,   192,   193,   196,   198,   201,   204,   213,   220,
-     223,   219,   232,   234,   236,   238,   240,   242,   244,   246,
-     253,   255,   257,   259,   261,   263,   265,   267
+       0,   191,   191,   192,   195,   197,   205,   211,   220,   227,
+     230,   226,   239,   241,   243,   245,   247,   249,   251,   253,
+     260,   262,   264,   266,   268,   270,   272,   274,   276
 };
 #endif
 
@@ -708,9 +708,8 @@ static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "INTEGER", "LETTER", "PRINTLETTER",
   "BOOLEAN", "EQUAL", "NOTEQUAL", "MEQUAL", "GEQUAL", "IF", "THEN", "ELSE",
-  "EXIT", "'+'", "'-'", "'*'", "'/'", "'%'", "'^'", "'('", "')'", "'\\n'",
-  "'='", "'<'", "'>'", "$accept", "lines", "line", "$@1", "$@2", "bexpr",
-  "expr", YY_NULLPTR
+  "EXIT", "'+'", "'-'", "'*'", "'/'", "'%'", "'('", "')'", "'\\n'", "'='",
+  "'<'", "'>'", "$accept", "lines", "line", "$@1", "$@2", "bexpr", "expr", YY_NULLPTR
 };
 #endif
 
@@ -721,11 +720,11 @@ static const yytype_int16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
      265,   266,   267,   268,   269,    43,    45,    42,    47,    37,
-      94,    40,    41,    10,    61,    60,    62
+      40,    41,    10,    61,    60,    62
 };
 # endif
 
-#define YYPACT_NINF (-24)
+#define YYPACT_NINF (-15)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -739,12 +738,12 @@ static const yytype_int16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-     101,   -24,   -23,   -24,   -24,     9,   -24,     9,    29,   -24,
-     -13,    44,    34,   -24,   -24,    84,   -11,    64,   -24,   -24,
-     -24,    34,    34,    34,    34,    34,    34,    34,    34,    34,
-     -24,    34,    34,    34,   102,    -3,   -24,   -24,   133,   133,
-     133,   133,   -14,   -14,   -24,   -24,   -24,   133,   133,   120,
-     -24,    34,   128,   -24,    34,   111,   -24
+     102,   -15,   -14,   -15,   -15,    12,   -15,    95,    12,    33,
+     -15,   -11,    47,    95,   -15,   -15,    85,    95,   -12,    -8,
+      66,   -15,   -15,   -15,    95,    95,    95,    95,    95,    95,
+      95,    95,    95,   -15,    95,    95,   108,    -2,   124,   -15,
+     -15,   136,   136,   136,   136,   -12,   -12,   -15,   -15,   -15,
+     136,   136,   -15,    95,   131,   -15,    95,   116,   -15
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -752,24 +751,24 @@ static const yytype_int16 yypact[] =
      means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,    26,    27,     5,    19,     0,     4,     0,     0,     3,
-       0,     0,     0,    27,     9,     0,     0,     0,     1,     2,
-       8,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       6,     0,     0,     0,     0,     0,    18,    25,    16,    17,
-      12,    13,    20,    21,    22,    23,    24,    14,    15,     0,
-       7,     0,     0,    10,     0,     0,    11
+       0,    27,    28,     5,    19,     0,     4,     0,     0,     0,
+       3,     0,     0,     0,    28,     9,     0,     0,    25,     0,
+       0,     1,     2,     8,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     6,     0,     0,     0,     0,     0,    18,
+      26,    16,    17,    12,    13,    20,    21,    22,    23,    24,
+      14,    15,     7,     0,     0,    10,     0,     0,    11
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -24,   -24,     6,   -24,   -24,     1,    -5
+     -15,   -15,     5,   -15,   -15,    -4,    -5
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     8,     9,    35,    54,    10,    11
+      -1,     9,    10,    37,    56,    11,    12
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -777,62 +776,62 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      15,    12,    17,    27,    28,    29,    14,    34,    16,    51,
-      20,    36,     1,    13,    19,     4,    38,    39,    40,    41,
-      42,    43,    44,    45,    46,     0,    47,    48,    49,    18,
-       7,     0,     1,     2,     3,     4,     0,     1,    13,     0,
-       5,     0,     0,     6,     0,     0,    52,     0,     0,    55,
-       7,    21,    22,    23,    24,    33,     0,     0,     0,    25,
-      26,    27,    28,    29,     0,     0,     0,    30,     0,    31,
-      32,    21,    22,    23,    24,     0,     0,     0,     0,    25,
-      26,    27,    28,    29,     0,     0,    37,     0,     0,    31,
-      32,    21,    22,    23,    24,     0,     0,     0,     0,    25,
-      26,    27,    28,    29,     1,     2,     3,     4,     0,    31,
-      32,     0,     5,     0,     0,     6,     0,    25,    26,    27,
-      28,    29,     7,     0,     0,    50,    25,    26,    27,    28,
-      29,     0,     0,     0,    56,    25,    26,    27,    28,    29,
-       0,    53,    37,    25,    26,    27,    28,    29,    25,    26,
-      27,    28,    29
+      16,    15,    18,    20,    19,    30,    31,    32,    36,    13,
+      53,    23,    38,    39,    22,     1,    14,     0,     4,    41,
+      42,    43,    44,    45,    46,    47,    48,    49,     7,    50,
+      51,     0,     8,    21,     0,     0,     1,     2,     3,     4,
+       0,     0,     0,     0,     5,     0,     0,     6,    54,     7,
+       0,    57,     0,     8,    24,    25,    26,    27,     0,     0,
+       0,     0,    28,    29,    30,    31,    32,     0,     0,    33,
+       0,    34,    35,    24,    25,    26,    27,     0,     0,     0,
+       0,    28,    29,    30,    31,    32,     0,    40,     0,     0,
+      34,    35,    24,    25,    26,    27,     0,     0,     1,    14,
+      28,    29,    30,    31,    32,     1,     2,     3,     4,    34,
+      35,     7,     0,     5,     0,    17,     6,     0,     7,     0,
+       0,     0,     8,    28,    29,    30,    31,    32,     0,     0,
+      52,    28,    29,    30,    31,    32,     0,     0,    58,    28,
+      29,    30,    31,    32,    55,    40,    28,    29,    30,    31,
+      32,    28,    29,    30,    31,    32
 };
 
 static const yytype_int8 yycheck[] =
 {
-       5,    24,     7,    17,    18,    19,     5,    12,     7,    12,
-      23,    22,     3,     4,     8,     6,    21,    22,    23,    24,
-      25,    26,    27,    28,    29,    -1,    31,    32,    33,     0,
-      21,    -1,     3,     4,     5,     6,    -1,     3,     4,    -1,
-      11,    -1,    -1,    14,    -1,    -1,    51,    -1,    -1,    54,
-      21,     7,     8,     9,    10,    21,    -1,    -1,    -1,    15,
-      16,    17,    18,    19,    -1,    -1,    -1,    23,    -1,    25,
-      26,     7,     8,     9,    10,    -1,    -1,    -1,    -1,    15,
-      16,    17,    18,    19,    -1,    -1,    22,    -1,    -1,    25,
-      26,     7,     8,     9,    10,    -1,    -1,    -1,    -1,    15,
-      16,    17,    18,    19,     3,     4,     5,     6,    -1,    25,
-      26,    -1,    11,    -1,    -1,    14,    -1,    15,    16,    17,
-      18,    19,    21,    -1,    -1,    23,    15,    16,    17,    18,
-      19,    -1,    -1,    -1,    23,    15,    16,    17,    18,    19,
-      -1,    13,    22,    15,    16,    17,    18,    19,    15,    16,
-      17,    18,    19
+       5,     5,     7,     8,     8,    17,    18,    19,    13,    23,
+      12,    22,    17,    21,     9,     3,     4,    -1,     6,    24,
+      25,    26,    27,    28,    29,    30,    31,    32,    16,    34,
+      35,    -1,    20,     0,    -1,    -1,     3,     4,     5,     6,
+      -1,    -1,    -1,    -1,    11,    -1,    -1,    14,    53,    16,
+      -1,    56,    -1,    20,     7,     8,     9,    10,    -1,    -1,
+      -1,    -1,    15,    16,    17,    18,    19,    -1,    -1,    22,
+      -1,    24,    25,     7,     8,     9,    10,    -1,    -1,    -1,
+      -1,    15,    16,    17,    18,    19,    -1,    21,    -1,    -1,
+      24,    25,     7,     8,     9,    10,    -1,    -1,     3,     4,
+      15,    16,    17,    18,    19,     3,     4,     5,     6,    24,
+      25,    16,    -1,    11,    -1,    20,    14,    -1,    16,    -1,
+      -1,    -1,    20,    15,    16,    17,    18,    19,    -1,    -1,
+      22,    15,    16,    17,    18,    19,    -1,    -1,    22,    15,
+      16,    17,    18,    19,    13,    21,    15,    16,    17,    18,
+      19,    15,    16,    17,    18,    19
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     3,     4,     5,     6,    11,    14,    21,    28,    29,
-      32,    33,    24,     4,    32,    33,    32,    33,     0,    29,
-      23,     7,     8,     9,    10,    15,    16,    17,    18,    19,
-      23,    25,    26,    21,    33,    30,    22,    22,    33,    33,
-      33,    33,    33,    33,    33,    33,    33,    33,    33,    33,
-      23,    12,    33,    13,    31,    33,    23
+       0,     3,     4,     5,     6,    11,    14,    16,    20,    27,
+      28,    31,    32,    23,     4,    31,    32,    20,    32,    31,
+      32,     0,    28,    22,     7,     8,     9,    10,    15,    16,
+      17,    18,    19,    22,    24,    25,    32,    29,    32,    21,
+      21,    32,    32,    32,    32,    32,    32,    32,    32,    32,
+      32,    32,    22,    12,    32,    13,    30,    32,    22
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    27,    28,    28,    29,    29,    29,    29,    29,    30,
-      31,    29,    32,    32,    32,    32,    32,    32,    32,    32,
-      33,    33,    33,    33,    33,    33,    33,    33
+       0,    26,    27,    27,    28,    28,    28,    28,    28,    29,
+      30,    28,    31,    31,    31,    31,    31,    31,    31,    31,
+      32,    32,    32,    32,    32,    32,    32,    32,    32
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
@@ -840,7 +839,7 @@ static const yytype_int8 yyr2[] =
 {
        0,     2,     2,     1,     1,     1,     2,     4,     2,     0,
        0,     9,     3,     3,     3,     3,     3,     3,     3,     1,
-       3,     3,     3,     3,     3,     3,     1,     1
+       3,     3,     3,     3,     3,     2,     3,     1,     1
 };
 
 
@@ -1536,27 +1535,35 @@ yyreduce:
   switch (yyn)
     {
   case 4:
-#line 196 "infixCalc.y"
+#line 195 "infixCalc.y"
                                                                                                         {return 1;}
-#line 1542 "y.tab.c"
+#line 1541 "y.tab.c"
     break;
 
   case 5:
-#line 198 "infixCalc.y"
-                                                                                                {fprintf(fd, "printf(\"%%d\\n\", %c);\n",(yyvsp[0].letter)+'a');
-														printf("= %d\n", regs[(yyvsp[0].letter)]);}
-#line 1549 "y.tab.c"
+#line 197 "infixCalc.y"
+                                                                                                {if(vars[(yyvsp[0].letter)] == '*'){
+															fprintf(fd, "printf(\"%%d\\n\", %c);\n",(yyvsp[0].letter)+'a');
+															printf("= %d\n", regs[(yyvsp[0].letter)]);
+														 }
+								 						 else
+									 						printf("ERRORE: variabile %c non dichiarata\n",(yyvsp[0].letter)+'a');
+														}
+#line 1553 "y.tab.c"
     break;
 
   case 6:
-#line 201 "infixCalc.y"
-                                                                                                        { printf("= %d\n", (yyvsp[-1].produzione).num); 
-														fprintf(fd,"printf(\"%%d\\n\",t%d);\n", count_tmp-tmp); }
-#line 1556 "y.tab.c"
+#line 205 "infixCalc.y"
+                                                                                                        {if((yyvsp[-1].produzione).id == NUMBER){
+															printf("= %d\n", (yyvsp[-1].produzione).num); 
+															fprintf(fd,"printf(\"%%d\\n\",t%d);\n", count_tmp-tmp); 
+														 }
+														}
+#line 1563 "y.tab.c"
     break;
 
   case 7:
-#line 204 "infixCalc.y"
+#line 211 "infixCalc.y"
                                                                                         { regs[(yyvsp[-3].letter)] = (yyvsp[-1].produzione).num;
 														 vars[(yyvsp[-3].letter)] = '*';
 														 if ((yyvsp[-1].produzione).id == NUMBER)
@@ -1565,159 +1572,171 @@ yyreduce:
 														 	fprintf(fd,"%c = %c;\n",(yyvsp[-3].letter)+'a',(yyvsp[-1].produzione).id+'a');
 														 else
 														 	fprintf(fd,"%c = t%d;\n",(yyvsp[-3].letter)+'a',count_tmp-tmp);}
-#line 1569 "y.tab.c"
+#line 1576 "y.tab.c"
     break;
 
   case 8:
-#line 213 "infixCalc.y"
+#line 220 "infixCalc.y"
                                                                                                         { if((yyvsp[-1].produzione).num == 1)
 															printf("True\n");
 														else
 															printf("False\n"); 
 														fprintf(fd,"printf(\"%%d\\n\",t%d);\n", count_tmp-tmp); }
-#line 1579 "y.tab.c"
-    break;
-
-  case 9:
-#line 220 "infixCalc.y"
-                {fprintf(fd, "\nif ( t%d )\n\tgoto par%d;\n", count_tmp-tmp, count_par);
-		writePar(1, (yyvsp[0].produzione));}
 #line 1586 "y.tab.c"
     break;
 
-  case 10:
-#line 223 "infixCalc.y"
-                {fprintf(program, "else\n\tgoto par%d;\n", count_par);
-		writePar(0, (yyvsp[-1].produzione));}
+  case 9:
+#line 227 "infixCalc.y"
+                {fprintf(fd, "\nif ( t%d )\n\tgoto par%d;\n", count_tmp-tmp, count_par);
+		writePar(1, (yyvsp[0].produzione));}
 #line 1593 "y.tab.c"
     break;
 
+  case 10:
+#line 230 "infixCalc.y"
+                {fprintf(program, "else\n\tgoto par%d;\n", count_par);
+		writePar(0, (yyvsp[-1].produzione));}
+#line 1600 "y.tab.c"
+    break;
+
   case 11:
-#line 225 "infixCalc.y"
+#line 232 "infixCalc.y"
                                                                                                         { if((yyvsp[-7].produzione).num == 1)
 															printf("= %d\n", (yyvsp[-4].produzione).num);
 														else
 															printf("= %d\n", (yyvsp[-1].produzione).num);
 														mergeFile((yyvsp[-1].produzione));}
-#line 1603 "y.tab.c"
-    break;
-
-  case 12:
-#line 232 "infixCalc.y"
-                                        {(yyval.produzione).num = (yyvsp[-2].produzione).num <= (yyvsp[0].produzione).num; 
-								 (yyval.produzione).id = executeComparison((yyvsp[-2].produzione),"<=",(yyvsp[0].produzione)); }
 #line 1610 "y.tab.c"
     break;
 
-  case 13:
-#line 234 "infixCalc.y"
-                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num >= (yyvsp[0].produzione).num; 
-								 (yyval.produzione).id = executeComparison((yyvsp[-2].produzione),">=",(yyvsp[0].produzione)); }
+  case 12:
+#line 239 "infixCalc.y"
+                                        {(yyval.produzione).num = (yyvsp[-2].produzione).num <= (yyvsp[0].produzione).num; 
+								 (yyval.produzione).id = executeComparison((yyvsp[-2].produzione),"<=",(yyvsp[0].produzione)); }
 #line 1617 "y.tab.c"
     break;
 
-  case 14:
-#line 236 "infixCalc.y"
-                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num < (yyvsp[0].produzione).num; 
-								 (yyval.produzione).id = executeComparison((yyvsp[-2].produzione),"< ",(yyvsp[0].produzione)); }
+  case 13:
+#line 241 "infixCalc.y"
+                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num >= (yyvsp[0].produzione).num; 
+								 (yyval.produzione).id = executeComparison((yyvsp[-2].produzione),">=",(yyvsp[0].produzione)); }
 #line 1624 "y.tab.c"
     break;
 
-  case 15:
-#line 238 "infixCalc.y"
-                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num > (yyvsp[0].produzione).num; 
-								 (yyval.produzione).id = executeComparison((yyvsp[-2].produzione),"> ",(yyvsp[0].produzione)); }
+  case 14:
+#line 243 "infixCalc.y"
+                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num < (yyvsp[0].produzione).num; 
+								 (yyval.produzione).id = executeComparison((yyvsp[-2].produzione),"< ",(yyvsp[0].produzione)); }
 #line 1631 "y.tab.c"
     break;
 
-  case 16:
-#line 240 "infixCalc.y"
-                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num == (yyvsp[0].produzione).num; 
-								 (yyval.produzione).id = executeComparison((yyvsp[-2].produzione),"==",(yyvsp[0].produzione)); }
+  case 15:
+#line 245 "infixCalc.y"
+                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num > (yyvsp[0].produzione).num; 
+								 (yyval.produzione).id = executeComparison((yyvsp[-2].produzione),"> ",(yyvsp[0].produzione)); }
 #line 1638 "y.tab.c"
     break;
 
-  case 17:
-#line 242 "infixCalc.y"
-                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num != (yyvsp[0].produzione).num; 
-								 (yyval.produzione).id = executeComparison((yyvsp[-2].produzione),"!=",(yyvsp[0].produzione)); }
+  case 16:
+#line 247 "infixCalc.y"
+                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num == (yyvsp[0].produzione).num; 
+								 (yyval.produzione).id = executeComparison((yyvsp[-2].produzione),"==",(yyvsp[0].produzione)); }
 #line 1645 "y.tab.c"
     break;
 
-  case 18:
-#line 244 "infixCalc.y"
-                                                {(yyval.produzione).num = (yyvsp[-1].produzione).num; 
-								 (yyval.produzione).id = (yyvsp[-1].produzione).id; }
+  case 17:
+#line 249 "infixCalc.y"
+                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num != (yyvsp[0].produzione).num; 
+								 (yyval.produzione).id = executeComparison((yyvsp[-2].produzione),"!=",(yyvsp[0].produzione)); }
 #line 1652 "y.tab.c"
     break;
 
+  case 18:
+#line 251 "infixCalc.y"
+                                                {(yyval.produzione).num = (yyvsp[-1].produzione).num; 
+								 (yyval.produzione).id = (yyvsp[-1].produzione).id; }
+#line 1659 "y.tab.c"
+    break;
+
   case 19:
-#line 246 "infixCalc.y"
+#line 253 "infixCalc.y"
                                                         {(yyval.produzione).num = (yyvsp[0].boolean); 
 								 (yyval.produzione).id = NUMBER; 
 								 count_tmp += 1;
 								 fprintf(fd,"t%d = %d;\n", count_tmp-tmp, (yyvsp[0].boolean));}
-#line 1661 "y.tab.c"
-    break;
-
-  case 20:
-#line 253 "infixCalc.y"
-                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num + (yyvsp[0].produzione).num; 
-								 (yyval.produzione).id = executeOp((yyvsp[-2].produzione),'+',(yyvsp[0].produzione)); }
 #line 1668 "y.tab.c"
     break;
 
-  case 21:
-#line 255 "infixCalc.y"
-                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num - (yyvsp[0].produzione).num; 
-								 (yyval.produzione).id = executeOp((yyvsp[-2].produzione),'-',(yyvsp[0].produzione)); }
+  case 20:
+#line 260 "infixCalc.y"
+                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num + (yyvsp[0].produzione).num; 
+								 (yyval.produzione).id = executeOp((yyvsp[-2].produzione),'+',(yyvsp[0].produzione)); }
 #line 1675 "y.tab.c"
     break;
 
-  case 22:
-#line 257 "infixCalc.y"
-                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num * (yyvsp[0].produzione).num; 
-								 (yyval.produzione).id = executeOp((yyvsp[-2].produzione),'*',(yyvsp[0].produzione)); }
+  case 21:
+#line 262 "infixCalc.y"
+                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num - (yyvsp[0].produzione).num; 
+								 (yyval.produzione).id = executeOp((yyvsp[-2].produzione),'-',(yyvsp[0].produzione)); }
 #line 1682 "y.tab.c"
     break;
 
-  case 23:
-#line 259 "infixCalc.y"
-                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num / (yyvsp[0].produzione).num; 
-								 (yyval.produzione).id = executeOp((yyvsp[-2].produzione),'/',(yyvsp[0].produzione)); }
+  case 22:
+#line 264 "infixCalc.y"
+                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num * (yyvsp[0].produzione).num; 
+								 (yyval.produzione).id = executeOp((yyvsp[-2].produzione),'*',(yyvsp[0].produzione)); }
 #line 1689 "y.tab.c"
     break;
 
-  case 24:
-#line 261 "infixCalc.y"
-                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num % (yyvsp[0].produzione).num; 
-								 (yyval.produzione).id = executeOp((yyvsp[-2].produzione),'%',(yyvsp[0].produzione)); }
+  case 23:
+#line 266 "infixCalc.y"
+                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num / (yyvsp[0].produzione).num; 
+								 (yyval.produzione).id = executeOp((yyvsp[-2].produzione),'/',(yyvsp[0].produzione)); }
 #line 1696 "y.tab.c"
     break;
 
-  case 25:
-#line 263 "infixCalc.y"
-                                                {(yyval.produzione).num = (yyvsp[-1].produzione).num; 
-								 (yyval.produzione).id = (yyvsp[-1].produzione).id; }
+  case 24:
+#line 268 "infixCalc.y"
+                                                {(yyval.produzione).num = (yyvsp[-2].produzione).num % (yyvsp[0].produzione).num; 
+								 (yyval.produzione).id = executeOp((yyvsp[-2].produzione),'%',(yyvsp[0].produzione)); }
 #line 1703 "y.tab.c"
     break;
 
-  case 26:
-#line 265 "infixCalc.y"
-                                                        {(yyval.produzione).num = (yyvsp[0].number); 
-								 (yyval.produzione).id = NUMBER;}
+  case 25:
+#line 270 "infixCalc.y"
+                                                        {(yyval.produzione).num = -(yyvsp[0].produzione).num;
+								 (yyval.produzione).id = (yyvsp[0].produzione).id;}
 #line 1710 "y.tab.c"
     break;
 
-  case 27:
-#line 267 "infixCalc.y"
-                                                        {(yyval.produzione).id = (yyvsp[0].letter); 
-								 (yyval.produzione).num = regs[(yyvsp[0].letter)];}
+  case 26:
+#line 272 "infixCalc.y"
+                                                {(yyval.produzione).num = (yyvsp[-1].produzione).num; 
+								 (yyval.produzione).id = (yyvsp[-1].produzione).id; }
 #line 1717 "y.tab.c"
     break;
 
+  case 27:
+#line 274 "infixCalc.y"
+                                                        {(yyval.produzione).num = (yyvsp[0].number); 
+								 (yyval.produzione).id = NUMBER;}
+#line 1724 "y.tab.c"
+    break;
 
-#line 1721 "y.tab.c"
+  case 28:
+#line 276 "infixCalc.y"
+                                                        {if(vars[(yyvsp[0].letter)] == '*'){
+									(yyval.produzione).id = (yyvsp[0].letter); 
+									(yyval.produzione).num = regs[(yyvsp[0].letter)];
+								 }
+								 else
+									printf("ERRORE: variabile %c non dichiarata\n", (yyvsp[0].letter)+'a');
+								}
+#line 1736 "y.tab.c"
+    break;
+
+
+#line 1740 "y.tab.c"
 
       default: break;
     }
@@ -1949,7 +1968,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 271 "infixCalc.y"
+#line 285 "infixCalc.y"
 
 
 void yyerror (char const *s) {

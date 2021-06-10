@@ -21,14 +21,11 @@
 %token <letter> LETTER
 %token <boolean> BOOLEAN
 %token EQUAL NOTEQUAL MEQUAL GEQUAL
-%token IF
-%token THEN
-%token ELSE
+%token IF THEN ELSE
 %token EXIT
 
 %left '+' '-'
 %left '*' '/' '%'
-%left '^'
 %left '(' ')'
 
 %type <number> expr line
@@ -76,10 +73,7 @@ expr:expr '+' expr 				{ $$ = $1 + $3; }
 	|expr '*' expr 				{ $$ = $1 * $3; }
     |expr '/' expr 				{ $$ = $1 / $3; }
 	|expr '%' expr 				{ $$ = $1 % $3; }
-	|'-' expr					{ $$ = $2; }
-	|expr '^' expr 				{ $$ = 1; 
-                            	for(int i=0; i<$3; i++)
-                                	$$ = $$ * $1; }
+	|'-' expr					{ $$ = -$2; }
 	|'(' expr ')'				{ $$ = $2; }
 	|INTEGER					{ $$ = $1; }
 	|LETTER						{ $$ = regs[$1]; }

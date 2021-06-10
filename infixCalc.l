@@ -10,7 +10,7 @@
 
 exit[\n]			{return EXIT;}
 
-[-]?[0-9]+			{yylval.number = atoi(yytext);
+[0-9]+			{yylval.number = atoi(yytext);
 					return INTEGER;}
 
 True|False			{ if(yytext[0] == 'T')	
@@ -31,7 +31,7 @@ else				{ return ELSE; }
 [a-z]				{c = yytext[0];
 					yylval.letter = c - 'a';
 					return LETTER;}
-[ \t\r]
+[ \t\r]				
 
 \n					return '\n';
 .					return yytext[0];
